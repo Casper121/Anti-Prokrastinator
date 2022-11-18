@@ -82,16 +82,16 @@ let db_activities = new sqlite3.Database("activities_datenbank",(err)=>{
 
 app.post("/inputs",function(req,res)  {
 
-const param_name = req.body.task;
-const param_time = req.body.timer;
+    const param_name = req.body.task;
+    const param_minutes = req.body.minutes;
+    const param_seconds = req.body.seconds;
 
-console.log(param_time);
 /*
 db_tasks.run(
     `INSERT INTO tasks_datenbank(task,time_task) VALUES('${param_name}','${param_time}')`,
 );
 */
-res.render("t1_p2_showCountdown",{zeit : param_time,aufgabe:param_name});
+res.render("t1_p2_showCountdown",{minutes : param_minutes,seconds:param_seconds,aufgabe:param_name,});
 });
 
 app.post("/ergebnis_ja",function(req,res){
