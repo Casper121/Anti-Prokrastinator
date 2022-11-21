@@ -15,10 +15,14 @@
 
 <script>
         
-        var time_minutes = <%=minutes%>
+      //  var task = <%=aufgabe%>;
+        var time_minutes = <%=minutes%>;
         var time_seconds = <%=seconds%>
 
         timer_text = time_minutes + ":" + time_seconds;
+      //  task_text = toString(task) + "";
+
+        console.log(timer_text);
 
         function callMe(data) {
             document.getElementById('names').value = data;
@@ -41,6 +45,7 @@
             if (m < 0) {
                 window.location.replace("http://localhost:3000/t1_p3_evaluate.html");
                 return;
+                
             }
 
             if (s < 10 && m == "00") {
