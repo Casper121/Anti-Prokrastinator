@@ -7,7 +7,7 @@ laden mit sqlite3: .read init_trivia.sql
 
 
 CREATE TABLE trivia_datenbank(
-    id INTEGER PRIMARY KEY AUTOINCREMENT
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     trivia TEXT NOT NULL
 );
 
