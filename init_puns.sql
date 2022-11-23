@@ -9,8 +9,8 @@ Für neue activity jeweils die höchte ID benutzen
 */
 
 
-CREATE TABLE activies_datenbank(
+CREATE TABLE datenPuns(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    activity TEXT NOT NULL,
+    pun TEXT NOT NULL,
 );
 

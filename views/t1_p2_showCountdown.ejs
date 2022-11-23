@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+
+
+<body>
+
 <div class="content-wrapper" style="min-height: 823px;">
 
     <div class="modal fade" id="formModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -11,56 +16,70 @@
         </div>
     </div>
 
+
+
 </div>
+
 
 <script>
         
-      //  var task = <%=aufgabe%>;
-        var time_minutes = <%=minutes%>;
-        var time_seconds = <%=seconds%>
+    var timer_task = "<%=aufgabe%>"
+    var time_minutes = <%=minutes%>
+    var time_seconds = <%=seconds%>
 
-        timer_text = time_minutes + ":" + time_seconds;
-      //  task_text = toString(task) + "";
+   
+    console.log(timer_task + " " + time_minutes + " " + time_seconds);
 
-        console.log(timer_text);
 
-        function callMe(data) {
-            document.getElementById('names').value = data;
-            $('#formModel').modal('show');
+    timer_text = time_minutes + ":" + time_seconds;
+
+    //Testen, ob der Text auch richtig formatiert wurde
+    console.log(timer_text);
+
+    function callMe(data) {
+        document.getElementById('names').value = data;
+        $('#formModel').modal('show');
+    }
+    
+    //Timer wird mithilfe des timer_text initialisiert
+    document.getElementById('timer').innerHTML = timer_text;
+
+    startTimer();
+    function startTimer() {
+        var presentTime = document.getElementById('timer').innerHTML;
+        var timeArray = presentTime.split(/[:]+/);
+        var m = timeArray[0];
+        var s = checkSecond((timeArray[1] - 1));
+        if (s == 59) { m = m - 1 };
+        if (m < 0) {
+            //Bei Ablauf der Zeit wird user auf die Seite geschickt, bei der er "zugeben soll, was er geschafft hat"
+           window.location.replace("t1_p3_evaluate.html");
+            
         }
 
-        console.log(timer);
-        
-        console.log(timer_text);
-        
-        document.getElementById('timer').innerHTML = timer_text;
-
-        startTimer();
-        function startTimer() {
-            var presentTime = document.getElementById('timer').innerHTML;
-            var timeArray = presentTime.split(/[:]+/);
-            var m = timeArray[0];
-            var s = checkSecond((timeArray[1] - 1));
-            if (s == 59) { m = m - 1 };
-            if (m < 0) {
-                window.location.replace("http://localhost:3000/t1_p3_evaluate.html");
-                return;
-                
-            }
-
-            if (s < 10 && m == "00") {
-                document.getElementById("clicable1").disabled = true;
-                document.getElementById("clicable2").disabled = true;
-                document.getElementById("insert").disabled = true;
-            }
-
-            document.getElementById('timer').innerHTML = m + ":" + s;
-            setTimeout(startTimer, 1000);
+        if (s < 10 && m == "00") {
+            document.getElementById("clicable1").disabled = true;
+            document.getElementById("clicable2").disabled = true;
+            document.getElementById("insert").disabled = true;
         }
 
-        function checkSecond(sec) {
-            if (sec < 10 && sec >= 0) { sec = "0" + sec };
-            if (sec < 0) { sec = "59" };
-            return sec;
-        }
+        document.getElementById('timer').innerHTML = m + ":" + s;
+        setTimeout(startTimer, 1000);
+    }
+
+    function checkSecond(sec) {
+        if (sec < 10 && sec >= 0) { sec = "0" + sec };
+        if (sec < 0) { sec = "59" };
+        return sec;
+    }
+
 </script>
+
+
+
+
+
+</body>
+
+
+</html>
