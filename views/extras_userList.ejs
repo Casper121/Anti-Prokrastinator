@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste der Benutzer</title>
+</head>
+<body>
+    <table border ="1">
+        <% for(var i = 0; i < trivia_liste.length; i++){ %>
+            <tr>
+                
+                <td><%= trivia_liste[i].id %> </td> 
+                <td>Aufgabe: <%= trivia_liste[i].task %> </td> 
+                <td>Geplante Zeit: <%= trivia_liste[i].time_task %> </td>   
+                <td>Geschafft: <%= trivia_liste[i].is_done %> </td>              
+            </tr>
+            <% } %>
+        
+    </table>
+    <p>
+        <a href="Start"> Zurück zur Startseite </a>
+    </p>
+</body>
+</html>
