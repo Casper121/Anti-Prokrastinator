@@ -27,8 +27,6 @@ app.listen(3000, function () {
 app.engine(".ejs", require("ejs").__express);
 app.set("view engine", "ejs");
 
-
-
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
@@ -49,11 +47,11 @@ app.get("/Start",function(req,res){
 
 app.get("/Vorbei",function(req,res){
     res.sendFile(__dirname + "/views/evaluate.html");
-})
+});
 
 app.get("/Fehlschlag",function(req,res){
     res.sendFile(__dirname + "/views/t1_p5_taskFailed.html");
-})
+});
 
 
 //Datenbanken mit sqlite3 noch serstellen, sonst funktionieren sie nicht!
@@ -89,7 +87,7 @@ let db_puns = new sqlite3.Database("activities_datenbank",(err)=>{
 });
 */
 
-
+//Task and Time in Tier 1 setzten.
 app.post("/inputs",function(req,res)  {
 
     var param_name    = req.body.task;
@@ -98,23 +96,21 @@ app.post("/inputs",function(req,res)  {
     //Datenbankeintrag
     var param_time = "Minuten: " + param_minutes + " ; Sekunden: " + param_seconds;
     
-
     if(param_minutes ==  "") {
         param_minutes = "0";
     }
     if(param_seconds ==  "") {
         param_seconds = "1";
     }
-   
-
 
 db_tasks.run(
     `INSERT INTO tasks_datenbank(task,time_task,is_done) VALUES('${param_name}','${param_time}','${"nein"}')`,
 );
-
-
 res.render("t1_p2_showCountdown", {minutes : param_minutes, seconds: param_seconds, aufgabe: param_name});
 });
+
+
+
 
 //Aufgabe wurde geschafft!
 app.post("/ergebnis_ja",function(req,res){
@@ -142,4 +138,19 @@ app.post("/ergebnis_ja",function(req,res){
 
 app.post("/ergebnis_nein",function(req,res){
     res.redirect("/t1_p5_taskFailed.html");
+})
+
+//show the wheel of fortune page
+app.post("/Wheel_of_fortune", function(req,res){
+    res.render("t2_p1_glucksrad");
+})
+
+//show trivia after button click
+app.post("/Spin_the_wheel", function(req, res){
+    db_trivia.all(
+        `SELECT * FROM trivia_datenbank ORDER BY RANDOM()`, function(err, row){
+            const trivia = row[1].trivia;
+            res.render("t2_p1_glucksrad", {showTrivia: trivia});
+        }
+    )
 })
