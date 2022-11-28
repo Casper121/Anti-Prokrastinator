@@ -80,6 +80,7 @@ let db_tasks = new sqlite3.Database("tasks.db",(err)=>{
     console.log("Connected to tasks database");
 });
 
+
 /* Archiviert für später
 let db_puns = new sqlite3.Database("activities_datenbank",(err)=>{
     if(err){
@@ -143,3 +144,12 @@ app.post("/ergebnis_ja",function(req,res){
 app.post("/ergebnis_nein",function(req,res){
     res.redirect("/t1_p5_taskFailed.html");
 })
+
+
+app.post("/task_list",function(req,res){
+    db_tasks.all(
+        `SELECT * FROM tasks_datenbank`,function(err,rows){
+            res.render("extras_userList",{trivia_liste: rows});
+        }
+    );
+});
