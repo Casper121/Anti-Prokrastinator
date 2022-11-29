@@ -154,3 +154,11 @@ app.post("/Spin_the_wheel", function(req, res){
         }
     )
 })
+
+app.post("/task_list",function(req,res){
+    db_tasks.all(
+        `SELECT * FROM tasks_datenbank`,function(err,rows){
+            res.render("extras_userList",{trivia_liste: rows});
+        }
+    );
+});
