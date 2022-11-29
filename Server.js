@@ -149,7 +149,7 @@ app.post("/Wheel_of_fortune", function(req,res){
 app.post("/Spin_the_wheel", function(req, res){
     db_trivia.all(
         `SELECT * FROM trivia_datenbank ORDER BY RANDOM()`, function(err, row){
-            const trivia = row[1].trivia;
+            const trivia = row[0].trivia;
             res.render("t2_p1_glucksrad", {showTrivia: trivia});
         }
     )
