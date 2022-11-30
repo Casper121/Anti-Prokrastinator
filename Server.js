@@ -7,6 +7,7 @@ console.clear();
 //Benötigte Module
 const express = require("express");
 const app = express();
+app.use(express.urlencoded({extended: true}));
 
 const bodyParser = require("body-parser");
 app.use(
@@ -18,8 +19,8 @@ app.use(
 //test
 
 //Startet Webserver
-app.listen(3000, function () {
-    console.log("listening on port 3000");
+app.listen(3001, function () {
+    console.log("listening on port 3001");
   });
 
 
@@ -106,8 +107,25 @@ app.post("/inputs",function(req,res)  {
 db_tasks.run(
     `INSERT INTO tasks_datenbank(task,time_task,is_done) VALUES('${param_name}','${param_time}','${"nein"}')`,
 );
-res.render("t1_p2_showCountdown", {minutes : param_minutes, seconds: param_seconds, aufgabe: param_name});
-});
+
+var trivList = [];
+
+db_trivia.all(
+    `SELECT * FROM trivia_datenbank`, 
+    function(err,rows){
+
+        rows.forEach((row)=>{
+            trivList.push(row.trivia);
+        });
+        console.log(trivList);
+        console.log(typeof(trivList));
+
+        res.render("t1_p2_showCountdown", {minutes : param_minutes, seconds: param_seconds, aufgabe: param_name,trivia_liste:trivList});
+    });
+    }
+)
+
+
 
 
 
@@ -158,7 +176,7 @@ app.post("/Spin_the_wheel", function(req, res){
 app.post("/task_list",function(req,res){
     db_tasks.all(
         `SELECT * FROM tasks_datenbank`,function(err,rows){
-            res.render("extras_userList",{trivia_liste: rows});
+            res.render("extras_taskList",{task_liste: rows});
         }
     );
 });
