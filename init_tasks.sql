@@ -13,3 +13,10 @@ CREATE TABLE tasks_datenbank(
     is_done TEXT NOT NULL
 );
 
+CREATE TABLE user_datenbank(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username_data TEXT NOT NULL,
+    passwort_data TEXT NOT NULL,
+    chicken_status INTEGER NOT NULL
+
+);

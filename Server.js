@@ -16,9 +16,17 @@ app.use(
   })
 );
 
+const alert = require("alert");
+
 const bcrypt = require("bcrypt");
 
-//test
+const session = require('express-session');
+app.use(session({
+    secret: 'example',
+    saveUninitialized: false,
+    resave:false
+}));
+
 
 //Startet Webserver
 app.listen(3000, function () {
@@ -41,7 +49,9 @@ app.use(express.static(__dirname + "/images"));
 app.use(express.static(__dirname + "/html"));
 app.use(express.static(__dirname + "/views"));
 
-
+app.get("/Log-On",function(req,res){
+    res.sendFile(__dirname + "/views/logon.html");
+});
 
 //Die benötigten Seiten
 app.get("/Start",function(req,res){
@@ -81,14 +91,6 @@ let db_tasks = new sqlite3.Database("tasks.db",(err)=>{
     console.log("Connected to tasks database");
 });
 
-/* Archiviert für später
-let db_puns = new sqlite3.Database("activities_datenbank",(err)=>{
-    if(err){
-        return console.log(err.message);
-    }
-    console.log("Connected to activity database");
-});
-*/
 
 //Task and Time in Tier 1 setzten.
 app.post("/inputs",function(req,res)  {
@@ -119,15 +121,83 @@ db_trivia.all(
         rows.forEach((row)=>{
             trivList.push(row.trivia);
         });
-        console.log(trivList);
-        console.log(typeof(trivList));
-
+       
         res.render("t1_p2_showCountdown", {minutes : param_minutes, seconds: param_seconds, aufgabe: param_name,trivia_liste:trivList});
     });
     }
 )
+//Anmeldung, falls user bereits besteht
+app.post("/logon",function(req,res){
+
+    const param_username = req.body.username;
+    const param_passwort = req.body.passwort;
+
+    db_tasks.all(
+        `SELECT * FROM user_datenbank WHERE username_data = '${param_username}'`,
+        function(err,row){
+            if(err) throw err;
+            if(row.length == 1){
+                const hash = row[0].passwort_data;
+                const isValid = bcrypt.compareSync(param_passwort,hash);
+                if(isValid == true){
+                    req.session.sessionValue = param_username;
+                    console.log(req.session.sessionValue);
+
+                    res.render("loginErfolgreich", {});
+                }
+            }
+            if(row.length == 0){
+                alert("User nicht vorhanden!");
+            }
+        }
+    )
 
 
+});
+
+app.post("/logoff", function (req, res) {
+    delete req.session.sessionValue;
+    console.log(req.session.sessionValue != 1);
+    res.redirect("/logon.html");
+  });
+
+
+//User wird registriert
+app.post("/sign_up",function(req,res){
+
+    const param_username = req.body.username;
+    const param_passwort = req.body.passwort;
+
+    //Prüfen, ob der user bereits angemeldet ist
+    db_tasks.all(
+        `SELECT * FROM user_datenbank WHERE username_data = '${param_username}'`,
+        function(err,row){
+            if(err) throw err;
+
+            //Benutzer bereits vorhanden
+            if(row.length != 0){
+                alert("Benutzername bereits vergeben");
+            }
+
+            //Benutzer wird hinzugefügt
+            if(row.length == 0){
+                console.log("User noch nicht vorhanden!");
+                const hash = bcrypt.hashSync(param_passwort,10);
+                var chicken_status = 1;
+                
+                db_tasks.run(
+                    `INSERT INTO user_datenbank(username_data,passwort_data,chicken_status) VALUES('${param_username}','${hash}','${chicken_status}')`,
+                    
+                    res.redirect("/logon.html")
+                )
+            }
+
+
+        }
+    )
+
+
+});
 
 
 
@@ -139,12 +209,71 @@ app.post("/ergebnis_ja",function(req,res){
 
     //Hier das is_done updaten, damit es in task_done angezeigt werden kann
     //Dazu muss der neueste Eintrag abgerufen werden
+    var temp_chicken_status = 0;
+    var temp_username = req.session.sessionValue;
+    var chicken_image_path = "";
+
+    console.log(temp_username);
+     
     db_tasks.run(
-        
+
         `UPDATE tasks_datenbank SET is_done = "ja" WHERE id = (SELECT MAX(id) FROM tasks_datenbank) `
+
+        );
+
    
-        )
+
+
+    db_tasks.all(
+        `SELECT * FROM user_datenbank WHERE username_data = '${temp_username}'`,
+        function(err,row){
+            if(row[0].chicken_status <5){
+
+                console.log(row[0].chicken_status);
+
+                db_tasks.run(
+                    `UPDATE user_datenbank SET chicken_status = chicken_status + 1 WHERE username_data = '${temp_username}'`
+                    
+                )
+            }
+
+            temp_chicken_status=row[0].chicken_status;
+            
+
+            switch(temp_chicken_status){
+                case 1:
+
+                chicken_image_path = "Egg_Clear.png";
+                break;
+                case 2:
+
+                chicken_image_path = "Egg_Cracked.png";
+                break;
+                case 3:
+
+                chicken_image_path = "Chicken_Hatched.png";
+                break;
+
+                case 4:
+                
+                chicken_image_path = "Chicken_Young.png";
+                break;
+
+                case 5:
+
+                chicken_image_path = "Chicken_Adult.png";
+                break;
+            }
+            console.log(temp_chicken_status);
+            console.log(chicken_image_path);
+
+            res.render("t1_p4_taskDone",{image:chicken_image_path});
+            
+        }
+    )
+
         //Hier wird der Eintrag abgeschickt
+    /*
     db_tasks.all(
         `SELECT * FROM tasks_datenbank WHERE id = (SELECT MAX(id) FROM tasks_datenbank) `,
         function(err,row){
@@ -153,27 +282,86 @@ app.post("/ergebnis_ja",function(req,res){
             res.render("t1_p4_taskDone",{task_done: task_success});
         }
     );
+    */
 
 });
 
 app.post("/ergebnis_nein",function(req,res){
-    res.redirect("/t1_p5_taskFailed.html");
-})
 
-//show the wheel of fortune page
-app.post("/Wheel_of_fortune", function(req,res){
-    res.render("t2_p1_glucksrad");
-})
+    //Die zuletzt eingetragene Aufgabe wird aufgerufen und abgeändert, wenn sie gemacht wurde
 
-//show trivia after button click
-app.post("/Spin_the_wheel", function(req, res){
-    db_trivia.all(
-        `SELECT * FROM trivia_datenbank ORDER BY RANDOM()`, function(err, row){
-            const trivia = row[0].trivia;
-            res.render("t2_p1_glucksrad", {showTrivia: trivia});
+    //Hier das is_done updaten, damit es in task_done angezeigt werden kann
+    //Dazu muss der neueste Eintrag abgerufen werden
+    var temp_chicken_status = 0;
+    var temp_username = req.session.sessionValue;
+    var chicken_image_path = "";
+
+    console.log("Derzeitiger user: " + temp_username);
+     
+
+    db_tasks.all(
+        `SELECT * FROM user_datenbank WHERE username_data = '${temp_username}'`,
+        function(err,row){
+            if(row[0].chicken_status > 1){
+
+                console.log(row[0].chicken_status);
+
+                db_tasks.run(
+                    `UPDATE user_datenbank SET chicken_status = chicken_status - 1 WHERE username_data = '${temp_username}'`
+                    
+                )
+            }
+
+            temp_chicken_status=row[0].chicken_status;
+            
+
+            switch(temp_chicken_status){
+                case 1:
+
+                chicken_image_path = "Egg_Clear.png";
+                break;
+                
+                case 2:
+
+                chicken_image_path = "Egg_Cracked.png";
+                break;
+                case 3:
+
+                chicken_image_path = "Chicken_Hatched.png";
+                break;
+
+                case 4:
+                
+                chicken_image_path = "Chicken_Young.png";
+                break;
+
+                case 5:
+
+                chicken_image_path = "Chicken_Adult.png";
+                break;
+            }
+            console.log(temp_chicken_status);
+            console.log(chicken_image_path);
+
+            res.render("t1_p5_taskFailed",{image:chicken_image_path});
+            
         }
     )
-})
+
+        //Hier wird der Eintrag abgeschickt
+    /*
+    db_tasks.all(
+        `SELECT * FROM tasks_datenbank WHERE id = (SELECT MAX(id) FROM tasks_datenbank) `,
+        function(err,row){
+            //Die Aufgabe wird abgespeichet und mit res.render an die Seite mit den Glückwünschen geschickt
+            const task_success = row[0].task;
+            res.render("t1_p4_taskDone",{task_done: task_success});
+        }
+    );
+    */
+
+});
+
 
 app.post("/task_list",function(req,res){
     db_tasks.all(
