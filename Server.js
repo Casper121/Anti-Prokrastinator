@@ -16,6 +16,8 @@ app.use(
   })
 );
 
+const bcrypt = require("bcrypt");
+
 //test
 
 //Startet Webserver
