@@ -229,7 +229,7 @@ app.post("/ergebnis_ja",function(req,res){
         function(err,row){
             if(row[0].chicken_status <5){
 
-                console.log(row[0].chicken_status);
+                console.log("Chicken Status vor Inkrement:" + row[0].chicken_status);
 
                 db_tasks.run(
                     `UPDATE user_datenbank SET chicken_status = chicken_status + 1 WHERE username_data = '${temp_username}'`
@@ -245,10 +245,12 @@ app.post("/ergebnis_ja",function(req,res){
 
                 chicken_image_path = "Egg_Clear.png";
                 break;
+
                 case 2:
 
                 chicken_image_path = "Egg_Cracked.png";
                 break;
+                
                 case 3:
 
                 chicken_image_path = "Chicken_Hatched.png";
@@ -264,6 +266,9 @@ app.post("/ergebnis_ja",function(req,res){
                 chicken_image_path = "Chicken_Adult.png";
                 break;
             }
+
+            console.log("Chicken Status nach Inkrement:" + row[0].chicken_status);
+
             console.log(temp_chicken_status);
             console.log(chicken_image_path);
 
@@ -297,21 +302,19 @@ app.post("/ergebnis_nein",function(req,res){
     var chicken_image_path = "";
 
     console.log("Derzeitiger user: " + temp_username);
-     
+    
+
+    db_tasks.run(
+        `UPDATE user_datenbank SET chicken_status = chicken_status -1  WHERE username_data = '${temp_username}'`
+        
+    )
+
 
     db_tasks.all(
+
         `SELECT * FROM user_datenbank WHERE username_data = '${temp_username}'`,
         function(err,row){
-            if(row[0].chicken_status > 1){
-
-                console.log(row[0].chicken_status);
-
-                db_tasks.run(
-                    `UPDATE user_datenbank SET chicken_status = chicken_status - 1 WHERE username_data = '${temp_username}'`
-                    
-                )
-            }
-
+           
             temp_chicken_status=row[0].chicken_status;
             
 
@@ -343,6 +346,8 @@ app.post("/ergebnis_nein",function(req,res){
             console.log(temp_chicken_status);
             console.log(chicken_image_path);
 
+
+            console.log("Chicken Status nach Dekrement: " + row[0].chicken_status);
             res.render("t1_p5_taskFailed",{image:chicken_image_path});
             
         }
