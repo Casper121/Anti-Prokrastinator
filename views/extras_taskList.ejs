@@ -8,13 +8,13 @@
 </head>
 <body>
     <table border ="1">
-        <% for(var i = 0; i < trivia_liste.length; i++){ %>
+        <% for(var i = 0; i < task_liste.length; i++){ %>
             <tr>
                 
-                <td><%= trivia_liste[i].id %> </td> 
-                <td>Aufgabe: <%= trivia_liste[i].task %> </td> 
-                <td>Geplante Zeit: <%= trivia_liste[i].time_task %> </td>   
-                <td>Geschafft: <%= trivia_liste[i].is_done %> </td>              
+                <td><%= task_liste[i].id %> </td> 
+                <td>Aufgabe: <%= task_liste[i].task %> </td> 
+                <td>Geplante Zeit: <%= task_liste[i].time_task %> </td>   
+                <td>Geschafft: <%= task_liste[i].is_done %> </td>              
             </tr>
             <% } %>
         

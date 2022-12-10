@@ -1,24 +1,34 @@
-<!DOCTYPE html>
+<head>
+    <link href="t1_p2_showCountdown.css" type="text/css" rel="stylesheet">
+</head>
+<h1>
+Anti-Prokrastinator
+            
+</h1>
+<h2>  
+<div class = "row">
+  <div class = "column">
+   <div class = timer_box>
+     Zeit: <span id="timer"></span>
+   </div>
+   </div>
+   <div class = "column">
+     <div class = "task_box">
+       Aufgabe: <%=aufgabe%>
+     </div>
+   </div>
+     
+  </div>
+
+</h2>
 
 
-<body>
 
-<div class="content-wrapper" style="min-height: 823px;">
-
-    <div class="modal fade" id="formModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-            <h1 > Du möchtest also <%=aufgabe%>   </h1>
-            <h2 class="m-0 text-dark mt-3">Du hast noch: <span id="timer"></span> Zeit </h2>
-            </div>
-        </div>
-    </div>
-
-
-
-</div>
+<h3>
+  Glücksrad-Minigame
+</h3>
+<br>
+<br><br><br><br>
 
 
 <script>
@@ -27,9 +37,14 @@
     var time_minutes = <%=minutes%>
     var time_seconds = <%=seconds%>
 
-   
+  
+
+   //Prüfen, ob Zeit und Aufgabe richtig übertragen wurden
     console.log(timer_task + " " + time_minutes + " " + time_seconds);
 
+    
+  
+    
 
     timer_text = time_minutes + ":" + time_seconds;
 
@@ -72,10 +87,157 @@
         if (sec < 0) { sec = "59" };
         return sec;
     }
+    
 
 </script>
+<br>
+<br>
+<div id="app">
+  
+
+  <div class="buttons">
+    <button id="spinner">Play</button>
+    <img src ="Gluecksrad.png" class="spinwheel"/>
+    
+    
+  </div>
+    <div class="doors">
+      <div class="door">
+        <div class="boxes">
+          <!-- <div class="box">?</div> -->
+        </div>
+      </div>
+  
+  
+    
+  </div>
+</div>
+  
+  
+  
+  <script>
 
 
+var items = [];
+
+var temp_items = []
+
+<% for(var i = 0; i <= trivia_liste.length; i++ ) { %>
+
+
+var test = <%- JSON.stringify(trivia_liste[i]) %>
+
+console.log(test);
+
+temp_items.push(test);
+
+
+  <% } %>
+
+  console.log("Alle Elemente der finalen Liste: " + items);
+  
+  var items = temp_items.filter((c,index)=>{
+    return temp_items.indexOf(c) === index;
+  })
+
+  console.log(items);
+
+(function () {
+
+  
+ 
+  
+
+  //Testen, ob array richtig überliefert wurde
+ console.log(items);
+
+
+  const doors = document.querySelectorAll('.door');
+  
+  document.querySelector('#spinner').addEventListener('click', spin);
+  document.querySelector('#reseter').addEventListener('click', init);
+
+  function init(firstInit = true, groups = 1, duration = 1) {
+    for (const door of doors) {
+      if (firstInit) {
+        door.dataset.spinned = '0';
+      } else if (door.dataset.spinned === '1') {
+        return;
+      }
+
+      const boxes = door.querySelector('.boxes');
+      const boxesClone = boxes.cloneNode(false);
+      const pool = ['❓'];
+
+      if (!firstInit) {
+        const arr = [];
+        for (let n = 0; n < (groups > 0 ? groups : 1); n++) {
+          arr.push(...items);
+        }
+        pool.push(...shuffle(arr));
+
+        boxesClone.addEventListener(
+          'transitionstart',
+          function () {
+            door.dataset.spinned = '1';
+            this.querySelectorAll('.box').forEach((box) => {
+              box.style.filter = 'blur(1px)';
+            });
+          },
+          { once: true }
+        );
+
+        boxesClone.addEventListener(
+          'transitionend',
+          function () {
+            this.querySelectorAll('.box').forEach((box, index) => {
+              box.style.filter = 'blur(0)';
+              if (index > 0) this.removeChild(box);
+            });
+          },
+          { once: true }
+        );
+      }
+
+      for (let i = pool.length - 1; i >= 0; i--) {
+        const box = document.createElement('div');
+        box.classList.add('box');
+        box.style.width = door.clientWidth + 'px';
+        box.style.height = door.clientHeight + 'px';
+        box.textContent = pool[i];
+        boxesClone.appendChild(box);
+      }
+      boxesClone.style.transitionDuration = `${duration > 0 ? duration : 1}s`;
+      boxesClone.style.transform = `translateY(-${door.clientHeight * (pool.length - 1)}px)`;
+      door.replaceChild(boxesClone, boxes);
+    }
+  }
+
+  async function spin() {
+    init(false, 1, 2);
+    
+    for (const door of doors) {
+      const boxes = door.querySelector('.boxes');
+      const duration = parseInt(boxes.style.transitionDuration);
+      boxes.style.transform = 'translateY(0)';
+      await new Promise((resolve) => setTimeout(resolve, duration * 100));
+    }
+  }
+
+  function shuffle([...arr]) {
+    let m = arr.length;
+    while (m) {
+      const i = Math.floor(Math.random() * m--);
+      [arr[m], arr[i]] = [arr[i], arr[m]];
+    }
+    return arr;
+  }
+
+  init();
+})();
+
+
+  </script>
 
 
 

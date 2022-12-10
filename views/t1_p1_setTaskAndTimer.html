@@ -1,17 +1,34 @@
 <!DOCTYPE html>
 
 <html>
+    <head>
+        <link href="t1_p1_setTaskAndTimer.css" type="text/css" rel="stylesheet">
+    </head>
     <body>
+        <form action="/logoff" method = "post">
+            <button type ="submit">Abmelden </button> 
+              
+          </button>
+      </form>
+      <br>
     <h1>
+        
     </h1>
 
-    Hello There!
+    <h2>
+        Gib deine Aufgabe und das dazugehörige Zeitlimit an:
+    </h2>
+
+ 
 
         <form action="/inputs" method="POST">
             Aufgabe: <input type = "text" name = "task"> <br>
-            Minutes: <input type = "text" name = "minutes"> <br>
-            Seconds: <input type = "text" name = "seconds"> <br>
+            Minutes: <input type ="text" name = "minutes"> <br>
+            Seconds: <input type ="text" name = "seconds"> <br>
+
             <button type="submit">Absenden</button>
+
+            
         </form>
 
         <br>
@@ -19,6 +36,7 @@
         <form action="/task_list" method = "POST">
             <button type="submit">Willst du sehen, was für Aufgaben bereits versucht wurden?</button>
         </form>
+
 
 
 
