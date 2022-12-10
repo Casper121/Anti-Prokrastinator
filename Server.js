@@ -353,17 +353,7 @@ app.post("/ergebnis_nein",function(req,res){
         }
     )
 
-        //Hier wird der Eintrag abgeschickt
-    /*
-    db_tasks.all(
-        `SELECT * FROM tasks_datenbank WHERE id = (SELECT MAX(id) FROM tasks_datenbank) `,
-        function(err,row){
-            //Die Aufgabe wird abgespeichet und mit res.render an die Seite mit den Glückwünschen geschickt
-            const task_success = row[0].task;
-            res.render("t1_p4_taskDone",{task_done: task_success});
-        }
-    );
-    */
+ 
 
 });
 
