@@ -95,12 +95,14 @@ let db_tasks = new sqlite3.Database("tasks.db",(err)=>{
 //Task and Time in Tier 1 setzten.
 app.post("/inputs",function(req,res)  {
 
+    //Übergebene Inputs abspeichern
     var param_name    = req.body.task;
     var param_minutes = req.body.minutes;
     var param_seconds = req.body.seconds;
     //Datenbankeintrag
     var param_time = "Minuten: " + param_minutes + " ; Sekunden: " + param_seconds;
     
+    //Wenn fehlende Eingaben vorhanden sind, wird Zeit ersetzt
     if(param_minutes ==  "") {
         param_minutes = "0";
     }
@@ -108,12 +110,15 @@ app.post("/inputs",function(req,res)  {
         param_seconds = "1";
     }
 
+//Eintrag wird in Liste der vorherigen Aufgaben eingetragen
 db_tasks.run(
     `INSERT INTO tasks_datenbank(task,time_task,is_done) VALUES('${param_name}','${param_time}','${"nein"}')`,
 );
 
+//Array zur Übergabe an das Triviaglücksrad erstellen
 var trivList = [];
 
+//Trivia wird abgerufen und an Array gegeben
 db_trivia.all(
     `SELECT * FROM trivia_datenbank`, 
     function(err,rows){
