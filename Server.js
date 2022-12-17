@@ -111,12 +111,39 @@ app.post("/inputs",function(req,res)  {
     var param_name    = req.body.task;
     var param_minutes = req.body.minutes;
     var param_seconds = req.body.seconds;
-    //Datenbankeintrag
-    var param_time = "Minuten: " + param_minutes + " ; Sekunden: " + param_seconds;
-    
+
+    console.log(param_minutes);
+
     if(param_minutes ==  "") {
         param_minutes = "0";
     }
+
+    var check_Minute = Number(param_minutes);
+    var check_Second = Number(param_seconds);
+    
+    console.log(check_Minute);
+    console.log(check_Second);
+    console.log(typeof(check_Minute));
+    console.log(typeof(check_Second));
+    console.log(Number.isInteger(check_Minute));
+    console.log(Number.isInteger(check_Second));
+
+    if(check_Minute < 0 || check_Second <= 0 || isNaN(check_Minute) || isNaN(check_Second) || check_Second >= 60 || Number.isInteger(check_Minute)!= true || Number.isInteger(check_Second)!=true){
+        console.log(typeof(param_minutes) + " " + typeof(param_seconds));
+        alert("Bitte geben Sie eine ganze und positive Zahl für Minuten und Sekunden an." + " Sekunden dürfen nicht über 59 sein");
+        res.redirect("/t1_p1_setTaskAndTimer.html");
+    }
+    else{
+
+    //Datenbankeintrag
+    var param_time = "Minuten: " + param_minutes + " ; Sekunden: " + param_seconds;
+    
+    /*
+    if(param_minutes ==  "") {
+        param_minutes = "0";
+    }
+    */
+
     if(param_seconds ==  "") {
         param_seconds = "1";
     }
@@ -137,7 +164,7 @@ db_trivia.all(
        
         res.render("t1_p2_showCountdown", {minutes : param_minutes, seconds: param_seconds, aufgabe: param_name,trivia_liste:trivList});
     });
-    }
+    }}
 )
 
 
