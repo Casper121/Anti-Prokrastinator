@@ -104,6 +104,9 @@ let db_tasks = new sqlite3.Database("tasks.db",(err)=>{
 });
 
 
+//Console.log() im Code sind mainly fürs debugging 
+
+
 
 //Task and Time in Tier 1 setzten.
 app.post("/inputs",function(req,res)  {
@@ -115,23 +118,41 @@ app.post("/inputs",function(req,res)  {
 
     console.log(param_minutes);
 
+    //Wenn Minutenfeld freigelassen wird, wird Minuten auf 0 gesetzt
     if(param_minutes ==  "") {
         param_minutes = "0";
     }
 
+    //Hier wird der input string für die Zeitangabe in eine Nummer konvertiert
+    //Wenn es ein Buchstabe ist, wird es zu NaN
+    //Beispiel: "10" -> 10
+    //Beispiel: "10.5" -> 10.5
     var check_Minute = Number(param_minutes);
     var check_Second = Number(param_seconds);
     
+    //Debugging
     console.log(check_Minute);
     console.log(check_Second);
     console.log(typeof(check_Minute));
     console.log(typeof(check_Second));
+
+    //Es wird gecheckt, ob die Nummer ein int ist und das result in der Konsole ausgegeben
     console.log(Number.isInteger(check_Minute));
     console.log(Number.isInteger(check_Second));
 
+
+    //If-Abfrage ist noch etwas clunky
+    //Es werden alle Fälle abgefragt, die falschlaufen können
+    //Minuten dürfen nicht unter 0 sein, Sekunden dürfen nicht kleinergleich 0 sein, Minuten und Sekunden dürfen als Typ nicht NaN haben
+    //Sekunden dürfen nicht größer als 59 sein, wegen Timer-Funktion; zuletzt dürfen Minuten und Sekunden keine Kommazahlen sein
     if(check_Minute < 0 || check_Second <= 0 || isNaN(check_Minute) || isNaN(check_Second) || check_Second >= 60 || Number.isInteger(check_Minute)!= true || Number.isInteger(check_Second)!=true){
+        
         console.log(typeof(param_minutes) + " " + typeof(param_seconds));
+        
+        //Pop-Up welches den user daran erinnert, was nicht eingegeben werden darf
         alert("Bitte geben Sie eine ganze und positive Zahl für Minuten und Sekunden an." + " Sekunden dürfen nicht über 59 sein");
+        
+        //Eingabeseite wird neu geladen
         res.redirect("/t1_p1_setTaskAndTimer.html");
     }
     else{
@@ -139,7 +160,7 @@ app.post("/inputs",function(req,res)  {
     //Datenbankeintrag
     var param_time = "Minuten: " + param_minutes + " ; Sekunden: " + param_seconds;
     
-    //Wenn fehlende Eingaben vorhanden sind, wird Zeit ersetzt
+    //Wenn fehlende Eingaben vorhanden sind, wird Zeit automatisch eingegeben
     if(param_minutes ==  "") {
         param_minutes = "0";
     }
