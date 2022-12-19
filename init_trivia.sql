@@ -4,13 +4,14 @@ laden mit sqlite3: .read init_trivia.sql
 
 */
 
-
+//trivia_datenbank enthält die Trivias für das Glücksrad
 
 CREATE TABLE trivia_datenbank(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     trivia TEXT NOT NULL
 );
 
+//Trivialiste
 INSERT INTO trivia_datenbank(trivia) VALUES("Kraken haben neun Gehirne und drei Herzen");
 INSERT INTO trivia_datenbank(trivia) VALUES("Napoleon Bonaparte hat in 81 Schlachten nur 11 verloren");
 INSERT INTO trivia_datenbank(trivia) VALUES("Bevor Nintendo sich zu Videospielen begeben hat, haben Sie Spielkarten verkauft");
