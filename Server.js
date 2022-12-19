@@ -139,15 +139,11 @@ app.post("/inputs",function(req,res)  {
     //Datenbankeintrag
     var param_time = "Minuten: " + param_minutes + " ; Sekunden: " + param_seconds;
     
-<<<<<<< HEAD
     //Wenn fehlende Eingaben vorhanden sind, wird Zeit ersetzt
-=======
-    /*
->>>>>>> 85ffd607cf919f0cad5c534c91c785de15a9b544
     if(param_minutes ==  "") {
         param_minutes = "0";
     }
-    */
+    
 
     if(param_seconds ==  "") {
         param_seconds = "1";
