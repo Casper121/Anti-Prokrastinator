@@ -1,247 +1,244 @@
 <head>
     <link href="t1_p2_showCountdown.css" type="text/css" rel="stylesheet">
 </head>
-<h1>
-Anti-Prokrastinator
-            
-</h1>
-<h2>  
-<div class = "row">
-  <div class = "column">
-   <div class = timer_box>
-     Zeit: <span id="timer"></span>
-   </div>
-   </div>
-   <div class = "column">
-     <div class = "task_box">
-       Aufgabe: <%=aufgabe%>
-     </div>
-   </div>
-     
-  </div>
-
-</h2>
 
 
-
-<h3>
-  Glücksrad-Minigame
-</h3>
-<br>
-<br><br><br><br>
-
-
-<script>
-        
-    var timer_task = "<%=aufgabe%>"
-    var time_minutes = <%=minutes%>
-    var time_seconds = <%=seconds%>
-
-  
-
-   //Prüfen, ob Zeit und Aufgabe richtig übertragen wurden
-    console.log(timer_task + " " + time_minutes + " " + time_seconds);
-
-    
-  
-    
-
-    timer_text = time_minutes + ":" + time_seconds;
-
-    //Testen, ob der Text auch richtig formatiert wurde
-    console.log(timer_text);
-
-    function callMe(data) {
-        document.getElementById('names').value = data;
-        $('#formModel').modal('show');
-    }
-    
-    //Timer wird mithilfe des timer_text initialisiert
-    document.getElementById('timer').innerHTML = timer_text;
-
-    startTimer();
-    function startTimer() {
-        var presentTime = document.getElementById('timer').innerHTML;
-        var timeArray = presentTime.split(/[:]+/);
-        var m = timeArray[0];
-        var s = checkSecond((timeArray[1] - 1));
-        if (s == 59) { m = m - 1 };
-        if (m < 0) {
-            //Bei Ablauf der Zeit wird user auf die Seite geschickt, bei der er "zugeben soll, was er geschafft hat"
-           window.location.replace("t1_p3_evaluate.html");
-            
-        }
-
-        if (s < 10 && m == "00") {
-            document.getElementById("clicable1").disabled = true;
-            document.getElementById("clicable2").disabled = true;
-            document.getElementById("insert").disabled = true;
-        }
-
-        document.getElementById('timer').innerHTML = m + ":" + s;
-        setTimeout(startTimer, 1000);
-    }
-
-    function checkSecond(sec) {
-        if (sec < 10 && sec >= 0) { sec = "0" + sec };
-        if (sec < 0) { sec = "59" };
-        return sec;
-    }
-    
-
-</script>
-<br>
-<br>
-<div id="app">
-  
-
-  <div class="buttons">
-    <button id="spinner">Play</button>
-    <img src ="Gluecksrad.png" class="spinwheel"/>
-    
-    
-  </div>
-    <div class="doors">
-      <div class="door">
-        <div class="boxes">
-          <!-- <div class="box">?</div> -->
+  <h2>  
+    <div class = "row">
+      <div class = "column">
+        <div class = timer_box>
+          Zeit: <span id="timer"></span>
         </div>
       </div>
-  
-  
-    
-  </div>
-</div>
-  
-  
-  
+      <div class = "column">
+        <div class = "task_box">
+          Aufgabe: <%=aufgabe%>
+        </div>
+    </div>
+      
+    </div>
+
+  </h2>
+
+  <br>
+  <br><br><br><br>
+
+
+  <script>
+          
+      var timer_task = "<%=aufgabe%>"
+      var time_minutes = <%=minutes%>
+      var time_seconds = <%=seconds%>
+
+    //Prüfen, ob Zeit und Aufgabe richtig übertragen wurden
+      console.log(timer_task + " " + time_minutes + " " + time_seconds);
+
+      timer_text = time_minutes + ":" + time_seconds;
+
+      //Testen, ob der Text auch richtig formatiert wurde
+      console.log(timer_text);
+
+      function callMe(data) {
+          document.getElementById('names').value = data;
+          $('#formModel').modal('show');
+      }
+      
+      //Timer wird mithilfe des timer_text initialisiert
+      document.getElementById('timer').innerHTML = timer_text;
+
+      startTimer();
+      function startTimer() {
+          var presentTime = document.getElementById('timer').innerHTML;
+          var timeArray = presentTime.split(/[:]+/);
+          var m = timeArray[0];
+          var s = checkSecond((timeArray[1] - 1));
+          if (s == 59) { m = m - 1 };
+          if (m < 0) {
+              //Bei Ablauf der Zeit wird user auf die Seite geschickt, bei der er "zugeben soll, was er geschafft hat"
+            window.location.replace("t1_p3_evaluate.html");
+              
+          }
+
+          if (s < 10 && m == "00") {
+              document.getElementById("clicable1").disabled = true;
+              document.getElementById("clicable2").disabled = true;
+              document.getElementById("insert").disabled = true;
+          }
+
+          document.getElementById('timer').innerHTML = m + ":" + s;
+          setTimeout(startTimer, 1000);
+      }
+
+      function checkSecond(sec) {
+          if (sec < 10 && sec >= 0) { sec = "0" + sec };
+          if (sec < 0) { sec = "59" };
+          return sec;
+      }
+  </script>
+  <br>
+  <br>
+
+  <!-- Spinner src: https://codepen.io/GhostCode99/pen/BaQePwW-->
+    <div id="app">
+      <div class="row">
+        <body>
+          <button id="spinner">Spin</button>
+          <span class="arrow"></span>
+          <div class="container">
+            <div class="one">?</div>
+            <div class="two">?</div>
+            <div class="three">?</div>
+            <div class="four">?</div>
+            <div class="five">?</div>
+            <div class="six">?</div>
+            <div class="seven">?</div>
+            <div class="eight">?</div>
+          </div>
+        </body>
+        <div class="column">
+          <h3>Spin the Wheel!</h3>
+          <div class="doors">
+            <div class="door">
+              <div class="boxes">
+                <!-- <div class="box">?</div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        let container = document.querySelector(".container");
+        let btn = document.getElementById("spinner");
+        let number = Math.ceil(Math.random() * 1000);
+
+        btn.onclick = function () {
+          container.style.transform = "rotate(" + number + "deg)";
+          number += Math.ceil(Math.random() * 1000);
+        }
+      </script>
+        
+    </div>
+
   <script>
 
+    var items = [];
 
-var items = [];
+    var temp_items = []
 
-var temp_items = []
-
-<% for(var i = 0; i <= trivia_liste.length; i++ ) { %>
-
-
-var test = <%- JSON.stringify(trivia_liste[i]) %>
-
-console.log(test);
-
-temp_items.push(test);
+    <% for(var i = 0; i <= trivia_liste.length; i++ ) { %>
 
 
-  <% } %>
+    var test = <%- JSON.stringify(trivia_liste[i]) %>
 
-  console.log("Alle Elemente der finalen Liste: " + items);
-  
-  var items = temp_items.filter((c,index)=>{
-    return temp_items.indexOf(c) === index;
-  })
+    console.log(test);
 
-  console.log(items);
-
-(function () {
-
-  
- //cide erwartet drücken des buttons und gibt dann zufälligen Spruch an
-  
-
-  //Testen, ob array richtig überliefert wurde
- console.log(items);
+    temp_items.push(test);
 
 
-  const doors = document.querySelectorAll('.door');
-  
-  document.querySelector('#spinner').addEventListener('click', spin);
-  document.querySelector('#reseter').addEventListener('click', init);
+      <% } %>
 
-  function init(firstInit = true, groups = 1, duration = 1) {
-    for (const door of doors) {
-      if (firstInit) {
-        door.dataset.spinned = '0';
-      } else if (door.dataset.spinned === '1') {
-        return;
-      }
+      console.log("Alle Elemente der finalen Liste: " + items);
+      
+      var items = temp_items.filter((c,index)=>{
+        return temp_items.indexOf(c) === index;
+      })
 
-      const boxes = door.querySelector('.boxes');
-      const boxesClone = boxes.cloneNode(false);
-      const pool = ['❓'];
+      console.log(items);
 
-      if (!firstInit) {
-        const arr = [];
-        for (let n = 0; n < (groups > 0 ? groups : 1); n++) {
-          arr.push(...items);
+    (function () {
+
+      
+    //cide erwartet drücken des buttons und gibt dann zufälligen Spruch an
+      
+
+      //Testen, ob array richtig überliefert wurde
+    console.log(items);
+
+
+      const doors = document.querySelectorAll('.door');
+      
+      document.querySelector('#spinner').addEventListener('click', spin);
+      document.querySelector('#reseter').addEventListener('click', init);
+
+      function init(firstInit = true, groups = 1, duration = 1) {
+        for (const door of doors) {
+          if (firstInit) {
+            door.dataset.spinned = '0';
+          } else if (door.dataset.spinned === '1') {
+            return;
+          }
+
+          const boxes = door.querySelector('.boxes');
+          const boxesClone = boxes.cloneNode(false);
+          const pool = ['❓'];
+
+          if (!firstInit) {
+            const arr = [];
+            for (let n = 0; n < (groups > 0 ? groups : 1); n++) {
+              arr.push(...items);
+            }
+            pool.push(...shuffle(arr));
+
+            boxesClone.addEventListener(
+              'transitionstart',
+              function () {
+                door.dataset.spinned = '1';
+                this.querySelectorAll('.box').forEach((box) => {
+                  box.style.filter = 'blur(1px)';
+                });
+              },
+              { once: true }
+            );
+
+            boxesClone.addEventListener(
+              'transitionend',
+              function () {
+                this.querySelectorAll('.box').forEach((box, index) => {
+                  box.style.filter = 'blur(0)';
+                  if (index > 0) this.removeChild(box);
+                });
+              },
+              { once: true }
+            );
+          }
+
+          for (let i = pool.length - 1; i >= 0; i--) {
+            const box = document.createElement('div');
+            box.classList.add('box');
+            box.style.width = door.clientWidth + 'px';
+            box.style.height = door.clientHeight + 'px';
+            box.textContent = pool[i];
+            boxesClone.appendChild(box);
+          }
+          boxesClone.style.transitionDuration = `${duration > 0 ? duration : 1}s`;
+          boxesClone.style.transform = `translateY(-${door.clientHeight * (pool.length - 1)}px)`;
+          door.replaceChild(boxesClone, boxes);
         }
-        pool.push(...shuffle(arr));
-
-        boxesClone.addEventListener(
-          'transitionstart',
-          function () {
-            door.dataset.spinned = '1';
-            this.querySelectorAll('.box').forEach((box) => {
-              box.style.filter = 'blur(1px)';
-            });
-          },
-          { once: true }
-        );
-
-        boxesClone.addEventListener(
-          'transitionend',
-          function () {
-            this.querySelectorAll('.box').forEach((box, index) => {
-              box.style.filter = 'blur(0)';
-              if (index > 0) this.removeChild(box);
-            });
-          },
-          { once: true }
-        );
       }
 
-      for (let i = pool.length - 1; i >= 0; i--) {
-        const box = document.createElement('div');
-        box.classList.add('box');
-        box.style.width = door.clientWidth + 'px';
-        box.style.height = door.clientHeight + 'px';
-        box.textContent = pool[i];
-        boxesClone.appendChild(box);
+      async function spin() {
+        init(false, 1, 2);
+        
+        for (const door of doors) {
+          const boxes = door.querySelector('.boxes');
+          const duration = parseInt(boxes.style.transitionDuration);
+          boxes.style.transform = 'translateY(0)';
+          await new Promise((resolve) => setTimeout(resolve, duration * 100));
+        }
       }
-      boxesClone.style.transitionDuration = `${duration > 0 ? duration : 1}s`;
-      boxesClone.style.transform = `translateY(-${door.clientHeight * (pool.length - 1)}px)`;
-      door.replaceChild(boxesClone, boxes);
-    }
-  }
 
-  async function spin() {
-    init(false, 1, 2);
-    
-    for (const door of doors) {
-      const boxes = door.querySelector('.boxes');
-      const duration = parseInt(boxes.style.transitionDuration);
-      boxes.style.transform = 'translateY(0)';
-      await new Promise((resolve) => setTimeout(resolve, duration * 100));
-    }
-  }
+      function shuffle([...arr]) {
+        let m = arr.length;
+        while (m) {
+          const i = Math.floor(Math.random() * m--);
+          [arr[m], arr[i]] = [arr[i], arr[m]];
+        }
+        return arr;
+      }
 
-  function shuffle([...arr]) {
-    let m = arr.length;
-    while (m) {
-      const i = Math.floor(Math.random() * m--);
-      [arr[m], arr[i]] = [arr[i], arr[m]];
-    }
-    return arr;
-  }
-
-  init();
-})();
-
-
+      init();
+    })();
   </script>
-
-
-
 </body>
-
-
 </html>
