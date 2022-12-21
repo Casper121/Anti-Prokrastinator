@@ -105,14 +105,13 @@ let db_tasks = new sqlite3.Database("tasks.db",(err)=>{
 //Console.log() im Code sind mainly fürs debugging 
 
 
-
 //Task and Time in Tier 1 setzten.
 app.post("/inputs",function(req,res)  {
 
     //Übergebene Inputs abspeichern
-    var param_name    = req.body.task;
-    var param_minutes = req.body.minutes;
-    var param_seconds = req.body.seconds;
+    let param_name    = req.body.task;
+    let param_minutes = req.body.minutes;
+    let param_seconds = req.body.seconds;
 
     console.log(param_minutes);
 
@@ -125,8 +124,8 @@ app.post("/inputs",function(req,res)  {
     //Wenn es ein Buchstabe ist, wird es zu NaN
     //Beispiel: "10" -> 10
     //Beispiel: "10.5" -> 10.5
-    var check_Minute = Number(param_minutes);
-    var check_Second = Number(param_seconds);
+    let check_Minute = Number(param_minutes);
+    let check_Second = Number(param_seconds);
     
     //Debugging
     console.log(check_Minute);
@@ -158,7 +157,7 @@ app.post("/inputs",function(req,res)  {
     else{
 
     //Datenbankeintrag der benötigten Zeit anlegen
-    var param_time = "Minuten: " + param_minutes + " ; Sekunden: " + param_seconds;
+    let param_time = "Minuten: " + param_minutes + " ; Sekunden: " + param_seconds;
     
     //Wenn fehlende Eingaben vorhanden sind, wird Zeit automatisch eingegeben
     if(param_minutes ==  "") {
@@ -176,7 +175,7 @@ db_tasks.run(
 );
 
 //Array zur Übergabe an das Triviaglücksrad erstellen
-var trivList = [];
+let trivList = [];
 
 //Trivia wird abgerufen und an Array gegeben
 db_trivia.all(
@@ -292,10 +291,10 @@ app.post("/sign_up",function(req,res){
 app.post("/ergebnis_ja",function(req,res){
 
     //Temporäre Variablen erstellen
-    var temp_chicken_status;
-    var temp_username = req.session.sessionValue;
+    let temp_chicken_status;
+    let temp_username = req.session.sessionValue;
     //Bild des Huhns. Pfad im /images-Ordner
-    var chicken_image_path = "";
+    let chicken_image_path = "";
 
     //Debugging
     console.log(temp_username);
@@ -406,10 +405,10 @@ app.post("/ergebnis_ja",function(req,res){
 app.post("/ergebnis_nein",function(req,res){
 
     //Temporäre Variablen erstellen
-    var temp_chicken_status;
-    var temp_username = req.session.sessionValue;
+    let temp_chicken_status;
+    let temp_username = req.session.sessionValue;
     //Name des Bildes im /images-Ordner
-    var chicken_image_path = "";
+    let chicken_image_path = "";
 
     //Debugging, um korrekten Benutzer zu verifizieren
     console.log("Derzeitiger user: " + temp_username);
