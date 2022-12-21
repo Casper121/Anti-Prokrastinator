@@ -5,31 +5,38 @@
         <link href="t1_p1_setTaskAndTimer.css" type="text/css" rel="stylesheet">
     </head>
     <body>
+        <div class="icon-bar">
+
+        </div>
         <form action="/logoff" method = "post">
             <button type ="submit">Abmelden </button> 
               
           </button>
-      </form>
-      <br>
-    <h1>
-        
-    </h1>
-
-    <h2>
-        Gib deine Aufgabe und das dazugehörige Zeitlimit an:
-    </h2>
-
- 
-
-        <form action="/inputs" method="POST">
-            Aufgabe: <input type = "text" name = "task"> <br>
-            Minutes: <input type ="text" name = "minutes"> <br>
-            Seconds: <input type ="text" name = "seconds"> <br>
-
-            <button type="submit">Absenden</button>
-
-            
         </form>
+      <br>
+        <h2>
+            Gib deine Aufgabe und das dazugehörige Zeitlimit an:
+        </h2>
+        
+        <container style="display: flex; flex-direction: row; justify-content: space-evenly;">
+
+            <form action="/inputs" method="POST" style="
+                width: 900px;
+                height: 400px;
+                display: flexbox;
+                background-color:red;
+                margin-top: 50px;
+                font-size: 30px;
+                padding-top: 100px;"
+                >
+                    Aufgabe: <input type = "text" name = "task"> <br>
+                    Minutes: <input type ="text" name = "minutes"> <br>
+                    Seconds: <input type ="text" name = "seconds"> <br>
+    
+                <button type="submit" style="width: 150px; height: 50px;">Absenden</button>
+    
+            </form>
+        </container>
 
         <br>
         <br>
@@ -40,5 +47,5 @@
 
 
 
-</body>
+    </body>
 </html>
