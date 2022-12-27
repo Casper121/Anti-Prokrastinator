@@ -268,7 +268,7 @@ app.post("/sign_up",function(req,res){
             if(row.length == 0){
                 console.log("User noch nicht vorhanden!");
                 const hash = bcrypt.hashSync(param_passwort,10);
-                var chicken_status = 1;
+                let chicken_status = 1;
                 
                 db_tasks.run(
                     `INSERT INTO user_datenbank(username_data,passwort_data,chicken_status) VALUES('${param_username}','${hash}','${chicken_status}')`,
@@ -292,10 +292,10 @@ app.post("/sign_up",function(req,res){
 app.post("/ergebnis_ja",function(req,res){
 
     //Temporäre Variablen erstellen
-    var temp_chicken_status;
-    var temp_username = req.session.sessionValue;
+    let temp_chicken_status = 0;
+    let temp_username = req.session.sessionValue;
     //Bild des Huhns. Pfad im /images-Ordner
-    var chicken_image_path = "";
+    let chicken_image_path = "";
 
     //Debugging
     console.log(temp_username);
@@ -406,10 +406,10 @@ app.post("/ergebnis_ja",function(req,res){
 app.post("/ergebnis_nein",function(req,res){
 
     //Temporäre Variablen erstellen
-    var temp_chicken_status;
-    var temp_username = req.session.sessionValue;
+    let temp_chicken_status = 0;
+    let temp_username = req.session.sessionValue;
     //Name des Bildes im /images-Ordner
-    var chicken_image_path = "";
+    let chicken_image_path = "";
 
     //Debugging, um korrekten Benutzer zu verifizieren
     console.log("Derzeitiger user: " + temp_username);
