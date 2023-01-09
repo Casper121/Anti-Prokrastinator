@@ -25,7 +25,6 @@ INSERT INTO trivia_datenbank(trivia) VALUES("Die englischen Synchronsprecher, di
 INSERT INTO trivia_datenbank(trivia) VALUES("Der vollständige Name der Barbie-Puppe lautet Barbara Millicent Roberts aus Willows");
 INSERT INTO trivia_datenbank(trivia) VALUES("Die originale Barbie-Puppe hat am 9. März 1959 Geburtstag. An diesem Tag wurde sie zum ersten Mal in der New York Toy Fair ausgestellt.");
 INSERT INTO trivia_datenbank(trivia) VALUES("In der Geschichte von Mexiko gab es einmal drei unterschiedliche Präsidenten an nur einem Tag.");
-INSERT INTO trivia_datenbank(trivia) VALUES("In Australien trank ein Schwein 18 Bier auf einem Camping Platz, wurde davon betrunken und versuchte dann, eine Kuh anzugreifen.");
 INSERT INTO trivia_datenbank(trivia) VALUES("Zählt man auf Englisch bei Eins beginnend aufwärts, dann ist 1.000 die erste Zahl, in der ein „A“ vorkommt.");
 INSERT INTO trivia_datenbank(trivia) VALUES("„Schwuugle“ beschreibt sich selbst als „die schwule Suchmaschine“.");
 INSERT INTO trivia_datenbank(trivia) VALUES("Wasser riecht erst dann nach Chlor, wenn jemand ins Becken gepinkelt hat.");
@@ -50,7 +49,6 @@ INSERT INTO trivia_datenbank(trivia) VALUES("Eine reguläre Inspektion inklusive
 INSERT INTO trivia_datenbank(trivia) VALUES("Ein früherer Premierminister von Australien verschwand 1967 spurlos und ist bis heute noch nicht wieder aufgetaucht.");
 INSERT INTO trivia_datenbank(trivia) VALUES("Der Weltrekord im „Die meisten Liegestütze an einem Tag“ liegt bei 46.001.");
 INSERT INTO trivia_datenbank(trivia) VALUES("Der echte Name des Michelin-Männchens ist „Bibendum“ oder kurz „Bib“.");
-INSERT INTO trivia_datenbank(trivia) VALUES("Einhundert Mal lachen verursacht den gleichen Kalorienverbrauch wie ein 15-minütiges Workout auf dem Fahrrad.");
 INSERT INTO trivia_datenbank(trivia) VALUES("„Paparazzi“ ist italienisch und heißt so viel wie „nervige Mücken“.");
 INSERT INTO trivia_datenbank(trivia) VALUES("Es gibt auch Regenbögen bei Nacht. Man nennt sie „Mondbögen“.");
 INSERT INTO trivia_datenbank(trivia) VALUES("Der Name „Microsoft“ ist eine Verbindung aus „Microcomputer“ und „Software“.");

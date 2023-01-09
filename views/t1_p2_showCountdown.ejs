@@ -125,25 +125,23 @@
     
     var items = [];
 
-    var temp_items = []
+    var temp_items = [];
 
-    <% for(var i = 0; i <= trivia_liste.length; i++ ) { %>
+    <% for(let i = 0; i <= trivia_liste.length; i++ ) { %>
 
+    var entry = <%- JSON.stringify(trivia_liste[i]) %>
 
-    var test = <%- JSON.stringify(trivia_liste[i]) %>
+    console.log(entry);
 
-    console.log(test);
-
-    temp_items.push(test);
+    temp_items.push(entry);
 
 
       <% } %>
 
       console.log("Alle Elemente der finalen Liste: " + items);
       
-
-
-      var items = temp_items.filter((c,index)=>{
+      //doppelte Einträge aus Liste entfernen
+      items = temp_items.filter((c,index)=>{
         return temp_items.indexOf(c) === index;
       })
 

@@ -110,23 +110,28 @@ let db_tasks = new sqlite3.Database("tasks.db",(err)=>{
 app.post("/inputs",function(req,res)  {
 
     //Übergebene Inputs abspeichern
-    var param_name    = req.body.task;
-    var param_minutes = req.body.minutes;
-    var param_seconds = req.body.seconds;
+    let param_name    = req.body.task;
+    let param_minutes = req.body.minutes;
+    let param_seconds = req.body.seconds;
 
     console.log(param_minutes);
 
-    //Wenn Minutenfeld freigelassen wird, wird Minuten auf 0 gesetzt
-    if(param_minutes ==  "") {
+/*  Wenn Minutenfeld freigelassen wird, wird Minuten auf 0 gesetzt
+    if(param_minutes === "") {
         param_minutes = "0";
     }
 
+    if(param_seconds === ""){
+        param_seconds = "1";
+    }
+*/
     //Hier wird der input string für die Zeitangabe in eine Nummer konvertiert
-    //Wenn es ein Buchstabe ist, wird es zu NaN
+    //Wenn es ein Buchstabe oder leerer string ist, wird es zu NaN
     //Beispiel: "10" -> 10
     //Beispiel: "10.5" -> 10.5
-    var check_Minute = Number(param_minutes);
-    var check_Second = Number(param_seconds);
+    //Beispiel: "" -> NaN
+    let check_Minute = Number(param_minutes);
+    let check_Second = Number(param_seconds);
     
     //Debugging
     console.log(check_Minute);
@@ -141,14 +146,14 @@ app.post("/inputs",function(req,res)  {
 
     //If-Abfrage ist noch etwas clunky
     //Es werden alle Fälle abgefragt, die falschlaufen können. Wenn einer falsch ist, kommt Fehlermeldung
-    //Minuten dürfen nicht unter 0 sein, Sekunden dürfen nicht kleinergleich 0 sein, Minuten und Sekunden dürfen als Typ nicht NaN haben
+    //Minuten dürfen nicht unter 0 sein, Sekunden dürfen nicht kleiner 1 sein, Minuten und Sekunden dürfen als Typ nicht NaN haben
     //Sekunden dürfen nicht größer als 59 sein, wegen Timer-Funktion; zuletzt dürfen Minuten und Sekunden keine Kommazahlen sein
     if(check_Minute < 0 || check_Second <= 0 || isNaN(check_Minute) || isNaN(check_Second) || check_Second >= 60 || Number.isInteger(check_Minute)!= true || Number.isInteger(check_Second)!=true){
         
         console.log(typeof(param_minutes) + " " + typeof(param_seconds));
         
         //Pop-Up welches den user daran erinnert, was nicht eingegeben werden darf
-        alert("Bitte geben Sie eine ganze und positive Zahl für Minuten und Sekunden an." + " Sekunden dürfen nicht über 59 sein");
+        alert("Bitte geben Sie eine ganze und positive Zahl für Minuten und Sekunden an." + " Sekunden dürfen nicht 59 nicht überschreiten");
         
         //Eingabeseite wird neu geladen
         res.redirect("/t1_p1_setTaskAndTimer.html");
@@ -158,17 +163,9 @@ app.post("/inputs",function(req,res)  {
     else{
 
     //Datenbankeintrag der benötigten Zeit anlegen
-    var param_time = "Minuten: " + param_minutes + " ; Sekunden: " + param_seconds;
+    let param_time = "Minuten: " + param_minutes + " ; Sekunden: " + param_seconds;
     
-    //Wenn fehlende Eingaben vorhanden sind, wird Zeit automatisch eingegeben
-    if(param_minutes ==  "") {
-        param_minutes = "0";
-    }
-    
-
-    if(param_seconds ==  "") {
-        param_seconds = "1";
-    }
+//Wenn fehlende Eingaben vorhanden sind, wird Zeit automatisch eingegeben   
 
 //Eintrag wird in Liste der vorherigen Aufgaben eingetragen
 db_tasks.run(
@@ -176,7 +173,7 @@ db_tasks.run(
 );
 
 //Array zur Übergabe an das Triviaglücksrad erstellen
-var trivList = [];
+let trivList = [];
 
 //Trivia wird abgerufen und an Array gegeben
 db_trivia.all(
@@ -297,6 +294,7 @@ app.post("/ergebnis_ja",function(req,res){
     //Bild des Huhns. Pfad im /images-Ordner
     let chicken_image_path = "";
 
+
     //Debugging
     console.log(temp_username);
      
@@ -328,6 +326,7 @@ app.post("/ergebnis_ja",function(req,res){
 
                 //Chicken_status inkrementieren
                 db_tasks.run(
+                    
                     `UPDATE user_datenbank SET chicken_status = chicken_status + 1 WHERE username_data = '${temp_username}'`
                     
                 )
@@ -429,6 +428,7 @@ app.post("/ergebnis_nein",function(req,res){
                 console.log("Chicken Status vor Dekrement:" + row[0].chicken_status);
 
                 db_tasks.run(
+
                     `UPDATE user_datenbank SET chicken_status = chicken_status -1  WHERE username_data = '${temp_username}'`
                     
                 )
