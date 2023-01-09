@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <WelcomeText style="display: flex; justify-content: space-evenly; padding-top: 16px; font-size: 64px;">Anti-Prokrastinator</WelcomeText>
+        <br><br>
+        <PageLayout style="display: flex; flex-direction: row; justify-content: center;">
+            <h1>x</h1>
+            <InfoContainer>
+                <TextBox style=" display: flex; height: 450px; width: 650px; font-size: 22px;
+                border: 3px solid black; background-color: beige; text-align: center;">
+                    Willkommen beim Anti-Prokrastinator! Wir sind froh, dass Sie hier 
+                    sind und hoffen, dass wir Ihnen helfen können, Ihre Prokrastination zu überwinden.
+                    <br><br>
+                    Kennen Sie das Problem von Motivationsmangel und Zeitmanagement? 
+                    Lassen Sie sich schnell durch andere Aktivitäten ablenken, anstatt 
+                    Ihrer Aufgabe nachzugehen? Wenn ja, dann sind Sie hier genau richtig!
+                    <br><br> 
+                    Sie können Ihre zu erledigenden Aufgaben festlegen und mit einem individuell 
+                    gesetzten Zeitlimit bearbeiten. Wir werden Ihnen Hürden stellen, die Sie dazu
+                    veranlassen sollen, sich anderweitig zu beschäftigen. Versuchen Sie, unseren
+                    Ablenkungen zu widerstehen, damit sich nicht nur das Ei, sondern auch Sie sich 
+                    weiterentwickeln! Meistern Sie Ihre Aufgaben, um keine Rückschritte zu machen. 
+                    <br><br>
+                    Viel Glück und Erfolg!
+                </TextBox>
+                <br><br>
+                <ButtonList style="display: flex; flex-direction: row; justify-content: space-evenly;
+                height: 100px; align-items: center;">
+                    <form action="/set-your-task", method="get"> 
+                        <button type="submit" style="width: 200px; height: 75px; background-color: beige;">LET'S WORK</button>
+                    </form>
+                    <form action="/logoff" method = "post">
+                        <button type ="submit" action="/views/t1_p1_setTaskAndTimer.html" style="width: 200px; height: 75px; background-color: beige;">Abmelden </button> 
+                    </form>
+                </ButtonList>
+            </InfoContainer>
+        </PageLayout>
+    </body>
+</html>

@@ -9,23 +9,20 @@
     <title>Ende</title>
 </head>
 
-<body>
+<body style="display: flex; align-items: center; justify-content: center; padding-top: 100px;">
+    <container style="display: flex; flex-direction: column; justify-content: space-evenly; height: 500px;
+        width: 700px; background-color: beige; border: 3px solid black;">
 
-    <h1> hast du es geschafft? </h1>
-    <br>
-    <form action="/ergebnis_ja" method="POST">
+        <h1 style="font-size: 48px;"> hast du es geschafft? </h1>
+        <br>
+        <form action="/ergebnis_ja" method="POST">
+            <button style="width: 400px; height: 50px; font-size: 32px;" type="submit">Ja</button>
+        </form>
         
-        <button type="submit">Ja</button>
-        
-    </form>
-    
-    <form action="/ergebnis_nein" method="POST">
-        
-        <button type="submit">Nein</button>
-        
-    </form>
-
-
+        <form action="/ergebnis_nein" method="POST">
+            <button style="width: 400px; height: 50px; font-size: 32px;"type="submit">Nein</button>
+        </form>
+    </container>
 </body>
 
 </html>

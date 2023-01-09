@@ -48,17 +48,18 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
-
-
-
 //Die benötigten Ordner freigeben
 app.use(express.static(__dirname + "/images"));
 app.use(express.static(__dirname + "/html"));
 app.use(express.static(__dirname + "/views"));
 
-
 //Die benötigten Seiten
-app.get("/Start",function(req,res){
+
+app.get("/Startseite",function(req,res){
+    res.sendFile(__dirname + "/views/Startseite.html");
+});
+
+app.get("/set-your-task",function(req,res){
     res.sendFile(__dirname + "/views/t1_p1_setTaskAndTimer.html");
 });
 
@@ -73,7 +74,6 @@ app.get("/Fehlschlag",function(req,res){
 app.get("/Log-On",function(req,res){
     res.sendFile(__dirname + "/views/logon.html");
 });
-
 
 //Datenbanken & sqlite3
 const sqlite3 = require("sqlite3").verbose();
@@ -100,7 +100,6 @@ let db_tasks = new sqlite3.Database("tasks.db",(err)=>{
     }
     console.log("Connected to tasks database");
 });
-
 
 //Console.log() im Code sind mainly fürs debugging 
 
@@ -164,7 +163,6 @@ app.post("/inputs",function(req,res)  {
     if(param_minutes ==  "") {
         param_minutes = "0";
     }
-    
 
     if(param_seconds ==  "") {
         param_seconds = "1";
@@ -182,17 +180,13 @@ var trivList = [];
 db_trivia.all(
     `SELECT * FROM trivia_datenbank`, 
     function(err,rows){
-
         rows.forEach((row)=>{
             trivList.push(row.trivia);
         });
-       
         res.render("t1_p2_showCountdown", {minutes : param_minutes, seconds: param_seconds, aufgabe: param_name,trivia_liste:trivList});
     });
     }}
 )
-
-
 
 //Anmeldung, falls user bereits besteht
 app.post("/logon",function(req,res){
@@ -220,23 +214,15 @@ app.post("/logon",function(req,res){
                     
                     //Sessionvariable wird gesetzt
                     req.session.sessionValue = param_username;
-                    console.log(req.session.sessionValue);
-
-                    //User wird auf neuer Seite mitgeteilt, dass er sich erfolgreich angemeldet hat
-                    res.render("loginErfolgreich", {});
-                }
-            }
-
+                    res.render("Startseite", {});
+                }         
             //Wenn user nicht in Datenbank vorhanden -> Fehlermeldung
             if(row.length == 0){
                 alert("User nicht vorhanden!");
             }
         }
-    )
-
-
+    })
 });
-
 
 //Benutzer abmelden
 app.post("/logoff", function (req, res) {
@@ -277,16 +263,9 @@ app.post("/sign_up",function(req,res){
                     res.redirect("/logon.html")
                 )
             }
-
-
         }
     )
-
-
 });
-
-
-
 
 //Aufgabe wurde geschafft!
 app.post("/ergebnis_ja",function(req,res){
@@ -353,35 +332,25 @@ app.post("/ergebnis_ja",function(req,res){
             
             //Ei wird ausgesucht
             switch(temp_chicken_status){
-                case 1:
-
-                chicken_image_path = "Egg_Clear.png";
+                case 1: chicken_image_path = "Egg_Clear.png";
                 break;
 
-                case 2:
-
-                chicken_image_path = "Egg_Cracked.png";
+                case 2: chicken_image_path = "Egg_Cracked.png";
                 break;
                 
-                case 3:
-
-                chicken_image_path = "Chicken_Hatched.png";
+                case 3: chicken_image_path = "Chicken_Hatched.png";
                 break;
 
-                case 4:
-                
-                chicken_image_path = "Chicken_Young.png";
+                case 4: chicken_image_path = "Chicken_Young.png";
                 break;
 
-                case 5:
-
-                chicken_image_path = "Chicken_Adult.png";
+                case 5: chicken_image_path = "Chicken_Adult.png";
                 break;
             }
 
             console.log(chicken_image_path);
 
-            res.render("t1_p4_taskDone",{image:chicken_image_path});
+            res.render("t1_p4_taskDone", {image: chicken_image_path});
         }
     )
 

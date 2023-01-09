@@ -3,66 +3,89 @@
  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <style>
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+
+        form {
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 400px;
+            background-color:beige;
+            margin-top: 50px;
+            font-size: 36px;
+            padding-top: 50px;
+            border: 3px solid black;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 30px;
+            color: black
+        }
+
+        h2{
+            text-align: center; 
+            font-size: 25px;
+        }
+
+        input{
+            width: 350px; 
+            height: 30px; 
+            font-size: 20px;
+        }
+
+        button{
+            width: 150px; 
+            height: 50px;
+        }
+
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anmeldung</title>
  </head>
  
- <body style="
- display: flex;
- flex-direction: column;"
- >
+ <body>
  
-    <h1 style = 
-        "text-align: center;
-        font-size: 30px;
-        color: black;">
-
+    <h1>
         <em>Herzlich Willkommen zum Anti-Prokrastinator! </em>
         <br>
-        
+        <em>Der Website, die dir hilft, das Prokrastinieren zu verhindern!</em>
+        <br>
     </h1>
 
 
-    <container style="display: flex; flex-direction: row; justify-content: space-evenly;">
-        <h2 style = "text-align: center; font-size: 25px;">
+    <container>
+        <h2>
             Bitte melde dich an
-
-            <form action="logon" method ="post" style="
-            width: 500px;
-            height: 400px;
-            display: flexbox;
-            background-color:red;
-            margin-top: 50px;
-            font-size: 30px;
-            padding-top: 100px;"
-            >
-                Username<br/> <input type = "text" name = "username" style="width: 350px; height: 30px; font-size: 20px;">
-                <br/> 
-                Passwort<br/> <input type = "password" name = "passwort"  style="width: 350px; height: 30px; font-size: 20px;"><br>
-                <br>
-                <button type="submit" style="width: 150px; height: 50px;">Absenden</button>
+            <form action="logon" method ="post">
+                Username<input type = "text" name = "username">
+                Passwort<input type = "password" name = "passwort">
+                <button type="submit">Absenden</button>
             </form>
-    
         </h2> 
         <br/>
-        <h3 style="text-align: center; font-size: 25px;">
-            Oder registriere dich ;)
+        <h2>
+            Oder registriere dich
                 
-            <form action="sign_up" method ="post" style="
-            width: 500px;
-            height: 400px;
-            display: flexbox;
-            background-color:red;
-            margin-top: 50px;
-            font-size: 30px;
-            padding-top: 100px;">
-                Username<br> <input type = "text" name = "username" style="width: 350px; height: 30px; font-size: 20px;">
-                <br/> 
-                Passwort<br> <input type = "password" name = "passwort" style="width: 350px; height: 30px; font-size: 20px;"> <br>
-                <br>
-                <button type="submit" style="width: 150px; height: 50px;">Absenden</button>
+            <form action="sign_up" method ="post">
+                Username<input type = "text" name = "username">
+                Passwort<input type = "password" name = "passwort">
+                <button type="submit">Absenden</button>
             </form>
-        </h3>
+        </h2>
     </container>
  </body>
  </html>
