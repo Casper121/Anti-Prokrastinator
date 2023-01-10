@@ -41,13 +41,13 @@ body {
   .door {
   
   background: #fafafa;
-  width: 700px;
-  height: 200px;
+  width: 900px;
+  height: 300px;
   overflow: hidden;
   border: 2px solid black;
   border-radius: 5px;
   margin: 5px;
-  font-size: 40px;
+  font-size: 16px;
   }
   
   .boxes {
@@ -190,8 +190,8 @@ body {
   
   .arrow{
     position: absolute;
-    top:20%;
-    left:34%;
+    top:18%;
+    left:465;
     transform: translateX(-50%);
     color: black;
   }
@@ -204,7 +204,7 @@ body {
   #spinner{
     position: absolute;
     top:60%;
-    left:520px;
+    left:465px;
     transform:translate(-50%,-50%);
     z-index:10;
     background-color: #e2e2e2;

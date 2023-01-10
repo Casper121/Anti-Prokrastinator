@@ -7,19 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    <h1>Du hättest in der Zeit deine Aufgabe schaffen können.
-        Hat sich das Prokrastinieren gut angefühlt?</h1>
-
-<h2>
-    Jetzt sieht dein Huhn leider so aus :/
-
+<body style="display: flex; flex-direction: row;">
     <img src = "<%=image%>" width = "50%" height="50%">
-
-    <p> <a href="Start"> Zurück zur Startseite </a> </p>
-
-</h2>
-
-       
+    <container style="display: flex; flex-direction: row; justify-content: center; padding-top: 100px; border: 4px solid black;
+    background-color: beige;"
+    >
+        <textAfterTask style="display: flex; flex-direction: column; justify-content: space-evenly; height: 500px; width: 500px;
+        font-size: 48px; align-items: center; text-align: center;"
+        >
+            <Text>Du hättest in der Zeit deine Aufgabe schaffen können.
+                Hat sich das Prokrastinieren gut angefühlt?</Text>
+            <form action="/set-your-task", method="get"> 
+                <button type="submit" style="width: 200px; height: 75px; background-color: beige;">
+                    Versuchs nochmal
+                </button>
+            </form>
+        <textAfterTask/>
+    </container>      
 </body>
 </html>
