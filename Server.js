@@ -231,10 +231,6 @@ app.post("/logon",function(req,res){
                         case 5: chicken_image_path = "Chicken_Adult.png";
                         break;
                     }
-
-
-
-
                     res.render("Startseite", {image: chicken_image_path});
                     
                 }         
@@ -298,7 +294,6 @@ app.post("/ergebnis_ja",function(req,res){
     //Bild des Huhns. Pfad im /images-Ordner
     let chicken_image_path = "";
 
-
     //Debugging
     console.log(temp_username);
      
@@ -310,9 +305,6 @@ app.post("/ergebnis_ja",function(req,res){
         `UPDATE tasks_datenbank SET is_done = "ja" WHERE id = (SELECT MAX(id) FROM tasks_datenbank) `
 
     );
-
-   
-
 
     db_tasks.all(
 
@@ -394,6 +386,10 @@ app.post("/ergebnis_ja",function(req,res){
 */
 });
 
+app.post("/Startseite", function(req,res){
+    res.render("Startseite", {image: chicken_image_path});
+})
+
 
 //Wenn die Aufgabe nicht geschafft wurde
 app.post("/ergebnis_nein",function(req,res){
@@ -434,16 +430,10 @@ app.post("/ergebnis_nein",function(req,res){
                 temp_chicken_status -= 1;
                 console.log("temporärer chicken_status nach: " + temp_chicken_status);
 
-            }
-
-           
-            
+            } 
         }
     )
-
-
-
-    
+ 
     //Bild wird anhand des chicken_status ausgewählt
     db_tasks.all(
 
@@ -476,17 +466,12 @@ app.post("/ergebnis_nein",function(req,res){
                 break;
             }
             
-
             console.log(chicken_image_path);
-
 
             res.render("t1_p5_taskFailed",{image:chicken_image_path});
             
         }
     )
-
- 
-
 });
 
 //Liste der bisherigen Aufgaben wird abgerufen, wenn sie eingesehen werden möchte
