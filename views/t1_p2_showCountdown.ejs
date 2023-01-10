@@ -122,38 +122,39 @@
 
   <script>
 
+    
     var items = [];
 
-    var temp_items = []
+    var temp_items = [];
 
-    <% for(var i = 0; i <= trivia_liste.length; i++ ) { %>
+    <% for(let i = 0; i <= trivia_liste.length; i++ ) { %>
 
+    var entry = <%- JSON.stringify(trivia_liste[i]) %>
 
-    var test = <%- JSON.stringify(trivia_liste[i]) %>
+    console.log(entry);
 
-    console.log(test);
-
-    temp_items.push(test);
+    temp_items.push(entry);
 
 
       <% } %>
 
       console.log("Alle Elemente der finalen Liste: " + items);
       
-      var items = temp_items.filter((c,index)=>{
+      //doppelte Einträge aus Liste entfernen
+      items = temp_items.filter((c,index)=>{
         return temp_items.indexOf(c) === index;
       })
+
+
+      //Leere Strings aus Liste herausnehmen
+      items = items.filter(e => e);
 
       console.log(items);
 
     (function () {
 
-      
-    //cide erwartet drücken des buttons und gibt dann zufälligen Spruch an
-      
-
       //Testen, ob array richtig überliefert wurde
-    console.log(items);
+      console.log(items);
 
 
       const doors = document.querySelectorAll('.door');
@@ -171,7 +172,7 @@
 
           const boxes = door.querySelector('.boxes');
           const boxesClone = boxes.cloneNode(false);
-          const pool = ['❓'];
+          const pool = [];
 
           if (!firstInit) {
             const arr = [];
@@ -218,8 +219,17 @@
       }
 
       async function spin() {
-        init(false, 1, 2);
         
+        /*
+        setTimeout(function(){
+
+          init(false, 1, 2);
+
+        },2000);
+        */
+
+        init(false, 1, 6);
+               
         for (const door of doors) {
           const boxes = door.querySelector('.boxes');
           const duration = parseInt(boxes.style.transitionDuration);

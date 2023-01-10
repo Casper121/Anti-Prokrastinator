@@ -48,17 +48,18 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
-
-
-
 //Die benötigten Ordner freigeben
 app.use(express.static(__dirname + "/images"));
 app.use(express.static(__dirname + "/html"));
 app.use(express.static(__dirname + "/views"));
 
-
 //Die benötigten Seiten
-app.get("/Start",function(req,res){
+
+app.get("/Startseite",function(req,res){
+    res.sendFile(__dirname + "/views/Startseite.html");
+});
+
+app.get("/set-your-task",function(req,res){
     res.sendFile(__dirname + "/views/t1_p1_setTaskAndTimer.html");
 });
 
@@ -73,7 +74,6 @@ app.get("/Fehlschlag",function(req,res){
 app.get("/Log-On",function(req,res){
     res.sendFile(__dirname + "/views/logon.html");
 });
-
 
 //Datenbanken & sqlite3
 const sqlite3 = require("sqlite3").verbose();
@@ -101,7 +101,6 @@ let db_tasks = new sqlite3.Database("tasks.db",(err)=>{
     console.log("Connected to tasks database");
 });
 
-
 //Console.log() im Code sind mainly fürs debugging 
 
 
@@ -110,23 +109,28 @@ let db_tasks = new sqlite3.Database("tasks.db",(err)=>{
 app.post("/inputs",function(req,res)  {
 
     //Übergebene Inputs abspeichern
-    var param_name    = req.body.task;
-    var param_minutes = req.body.minutes;
-    var param_seconds = req.body.seconds;
+    let param_name    = req.body.task;
+    let param_minutes = req.body.minutes;
+    let param_seconds = req.body.seconds;
 
     console.log(param_minutes);
 
-    //Wenn Minutenfeld freigelassen wird, wird Minuten auf 0 gesetzt
-    if(param_minutes ==  "") {
+/*  Wenn Minutenfeld freigelassen wird, wird Minuten auf 0 gesetzt
+    if(param_minutes === "") {
         param_minutes = "0";
     }
 
+    if(param_seconds === ""){
+        param_seconds = "1";
+    }
+*/
     //Hier wird der input string für die Zeitangabe in eine Nummer konvertiert
-    //Wenn es ein Buchstabe ist, wird es zu NaN
+    //Wenn es ein Buchstabe oder leerer string ist, wird es zu NaN
     //Beispiel: "10" -> 10
     //Beispiel: "10.5" -> 10.5
-    var check_Minute = Number(param_minutes);
-    var check_Second = Number(param_seconds);
+    //Beispiel: "" -> NaN
+    let check_Minute = Number(param_minutes);
+    let check_Second = Number(param_seconds);
     
     //Debugging
     console.log(check_Minute);
@@ -141,14 +145,14 @@ app.post("/inputs",function(req,res)  {
 
     //If-Abfrage ist noch etwas clunky
     //Es werden alle Fälle abgefragt, die falschlaufen können. Wenn einer falsch ist, kommt Fehlermeldung
-    //Minuten dürfen nicht unter 0 sein, Sekunden dürfen nicht kleinergleich 0 sein, Minuten und Sekunden dürfen als Typ nicht NaN haben
+    //Minuten dürfen nicht unter 0 sein, Sekunden dürfen nicht kleiner 1 sein, Minuten und Sekunden dürfen als Typ nicht NaN haben
     //Sekunden dürfen nicht größer als 59 sein, wegen Timer-Funktion; zuletzt dürfen Minuten und Sekunden keine Kommazahlen sein
     if(check_Minute < 0 || check_Second <= 0 || isNaN(check_Minute) || isNaN(check_Second) || check_Second >= 60 || Number.isInteger(check_Minute)!= true || Number.isInteger(check_Second)!=true){
         
         console.log(typeof(param_minutes) + " " + typeof(param_seconds));
         
         //Pop-Up welches den user daran erinnert, was nicht eingegeben werden darf
-        alert("Bitte geben Sie eine ganze und positive Zahl für Minuten und Sekunden an." + " Sekunden dürfen nicht über 59 sein");
+        alert("Bitte geben Sie eine ganze und positive Zahl für Minuten und Sekunden an." + " Sekunden dürfen nicht 59 nicht überschreiten");
         
         //Eingabeseite wird neu geladen
         res.redirect("/t1_p1_setTaskAndTimer.html");
@@ -158,17 +162,9 @@ app.post("/inputs",function(req,res)  {
     else{
 
     //Datenbankeintrag der benötigten Zeit anlegen
-    var param_time = "Minuten: " + param_minutes + " ; Sekunden: " + param_seconds;
+    let param_time = "Minuten: " + param_minutes + " ; Sekunden: " + param_seconds;
     
-    //Wenn fehlende Eingaben vorhanden sind, wird Zeit automatisch eingegeben
-    if(param_minutes ==  "") {
-        param_minutes = "0";
-    }
-    
-
-    if(param_seconds ==  "") {
-        param_seconds = "1";
-    }
+//Wenn fehlende Eingaben vorhanden sind, wird Zeit automatisch eingegeben   
 
 //Eintrag wird in Liste der vorherigen Aufgaben eingetragen
 db_tasks.run(
@@ -176,29 +172,26 @@ db_tasks.run(
 );
 
 //Array zur Übergabe an das Triviaglücksrad erstellen
-var trivList = [];
+let trivList = [];
 
 //Trivia wird abgerufen und an Array gegeben
 db_trivia.all(
     `SELECT * FROM trivia_datenbank`, 
     function(err,rows){
-
         rows.forEach((row)=>{
             trivList.push(row.trivia);
         });
-       
         res.render("t1_p2_showCountdown", {minutes : param_minutes, seconds: param_seconds, aufgabe: param_name,trivia_liste:trivList});
     });
     }}
 )
-
-
 
 //Anmeldung, falls user bereits besteht
 app.post("/logon",function(req,res){
 
     const param_username = req.body.username;
     const param_passwort = req.body.passwort;
+    let temp_chicken_status = 0;
 
     //Datenbank durchgehen, ob Benutzer bereits existiert
     db_tasks.all(
@@ -220,23 +213,34 @@ app.post("/logon",function(req,res){
                     
                     //Sessionvariable wird gesetzt
                     req.session.sessionValue = param_username;
-                    console.log(req.session.sessionValue);
+                    temp_chicken_status = row[0].chicken_status;
 
-                    //User wird auf neuer Seite mitgeteilt, dass er sich erfolgreich angemeldet hat
-                    res.render("loginErfolgreich", {});
-                }
-            }
-
+                    switch(temp_chicken_status){
+                        case 1: chicken_image_path = "Egg_Clear.png";
+                        break;
+        
+                        case 2: chicken_image_path = "Egg_Cracked.png";
+                        break;
+                        
+                        case 3: chicken_image_path = "Chicken_Hatched.png";
+                        break;
+        
+                        case 4: chicken_image_path = "Chicken_Young.png";
+                        break;
+        
+                        case 5: chicken_image_path = "Chicken_Adult.png";
+                        break;
+                    }
+                    res.render("Startseite", {image: chicken_image_path});
+                    
+                }         
             //Wenn user nicht in Datenbank vorhanden -> Fehlermeldung
             if(row.length == 0){
                 alert("User nicht vorhanden!");
             }
         }
-    )
-
-
+    })
 });
-
 
 //Benutzer abmelden
 app.post("/logoff", function (req, res) {
@@ -268,7 +272,7 @@ app.post("/sign_up",function(req,res){
             if(row.length == 0){
                 console.log("User noch nicht vorhanden!");
                 const hash = bcrypt.hashSync(param_passwort,10);
-                var chicken_status = 1;
+                let chicken_status = 1;
                 
                 db_tasks.run(
                     `INSERT INTO user_datenbank(username_data,passwort_data,chicken_status) VALUES('${param_username}','${hash}','${chicken_status}')`,
@@ -277,25 +281,18 @@ app.post("/sign_up",function(req,res){
                     res.redirect("/logon.html")
                 )
             }
-
-
         }
     )
-
-
 });
-
-
-
 
 //Aufgabe wurde geschafft!
 app.post("/ergebnis_ja",function(req,res){
 
     //Temporäre Variablen erstellen
-    var temp_chicken_status;
-    var temp_username = req.session.sessionValue;
+    let temp_chicken_status = 0;
+    let temp_username = req.session.sessionValue;
     //Bild des Huhns. Pfad im /images-Ordner
-    var chicken_image_path = "";
+    let chicken_image_path = "";
 
     //Debugging
     console.log(temp_username);
@@ -308,9 +305,6 @@ app.post("/ergebnis_ja",function(req,res){
         `UPDATE tasks_datenbank SET is_done = "ja" WHERE id = (SELECT MAX(id) FROM tasks_datenbank) `
 
     );
-
-   
-
 
     db_tasks.all(
 
@@ -328,6 +322,7 @@ app.post("/ergebnis_ja",function(req,res){
 
                 //Chicken_status inkrementieren
                 db_tasks.run(
+                    
                     `UPDATE user_datenbank SET chicken_status = chicken_status + 1 WHERE username_data = '${temp_username}'`
                     
                 )
@@ -353,35 +348,25 @@ app.post("/ergebnis_ja",function(req,res){
             
             //Ei wird ausgesucht
             switch(temp_chicken_status){
-                case 1:
-
-                chicken_image_path = "Egg_Clear.png";
+                case 1: chicken_image_path = "Egg_Clear.png";
                 break;
 
-                case 2:
-
-                chicken_image_path = "Egg_Cracked.png";
+                case 2: chicken_image_path = "Egg_Cracked.png";
                 break;
                 
-                case 3:
-
-                chicken_image_path = "Chicken_Hatched.png";
+                case 3: chicken_image_path = "Chicken_Hatched.png";
                 break;
 
-                case 4:
-                
-                chicken_image_path = "Chicken_Young.png";
+                case 4: chicken_image_path = "Chicken_Young.png";
                 break;
 
-                case 5:
-
-                chicken_image_path = "Chicken_Adult.png";
+                case 5: chicken_image_path = "Chicken_Adult.png";
                 break;
             }
 
             console.log(chicken_image_path);
 
-            res.render("t1_p4_taskDone",{image:chicken_image_path});
+            res.render("t1_p4_taskDone", {image: chicken_image_path});
         }
     )
 
@@ -401,15 +386,19 @@ app.post("/ergebnis_ja",function(req,res){
 */
 });
 
+app.post("/Startseite", function(req,res){
+    res.render("Startseite", {image: chicken_image_path});
+})
+
 
 //Wenn die Aufgabe nicht geschafft wurde
 app.post("/ergebnis_nein",function(req,res){
 
     //Temporäre Variablen erstellen
-    var temp_chicken_status;
-    var temp_username = req.session.sessionValue;
+    let temp_chicken_status = 0;
+    let temp_username = req.session.sessionValue;
     //Name des Bildes im /images-Ordner
-    var chicken_image_path = "";
+    let chicken_image_path = "";
 
     //Debugging, um korrekten Benutzer zu verifizieren
     console.log("Derzeitiger user: " + temp_username);
@@ -429,6 +418,7 @@ app.post("/ergebnis_nein",function(req,res){
                 console.log("Chicken Status vor Dekrement:" + row[0].chicken_status);
 
                 db_tasks.run(
+
                     `UPDATE user_datenbank SET chicken_status = chicken_status -1  WHERE username_data = '${temp_username}'`
                     
                 )
@@ -440,16 +430,10 @@ app.post("/ergebnis_nein",function(req,res){
                 temp_chicken_status -= 1;
                 console.log("temporärer chicken_status nach: " + temp_chicken_status);
 
-            }
-
-           
-            
+            } 
         }
     )
-
-
-
-    
+ 
     //Bild wird anhand des chicken_status ausgewählt
     db_tasks.all(
 
@@ -482,17 +466,12 @@ app.post("/ergebnis_nein",function(req,res){
                 break;
             }
             
-
             console.log(chicken_image_path);
-
 
             res.render("t1_p5_taskFailed",{image:chicken_image_path});
             
         }
     )
-
- 
-
 });
 
 //Liste der bisherigen Aufgaben wird abgerufen, wenn sie eingesehen werden möchte
