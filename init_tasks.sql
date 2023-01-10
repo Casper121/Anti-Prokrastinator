@@ -2,11 +2,13 @@
 Initialisiert die Datenbank für die (eigentlichen) Aufgaben
 laden mit sqlite3: .read init_tasks.sql
 
-*/
+
 
 //tasks_datenbank speichert den Namen der Aufgabe, die gegebene Zeit und den Status des Erfolgs ab 
 //is_done wird am Anfang auf nein gesetzt und beim Erfolg geändert
 
+
+*/
 CREATE TABLE tasks_datenbank(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     task TEXT NOT NULL,
