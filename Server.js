@@ -191,6 +191,7 @@ app.post("/logon",function(req,res){
 
     const param_username = req.body.username;
     const param_passwort = req.body.passwort;
+    let temp_chicken_status = 0;
 
     //Datenbank durchgehen, ob Benutzer bereits existiert
     db_tasks.all(
@@ -212,7 +213,30 @@ app.post("/logon",function(req,res){
                     
                     //Sessionvariable wird gesetzt
                     req.session.sessionValue = param_username;
-                    res.render("Startseite", {});
+                    temp_chicken_status = row[0].chicken_status;
+
+                    switch(temp_chicken_status){
+                        case 1: chicken_image_path = "Egg_Clear.png";
+                        break;
+        
+                        case 2: chicken_image_path = "Egg_Cracked.png";
+                        break;
+                        
+                        case 3: chicken_image_path = "Chicken_Hatched.png";
+                        break;
+        
+                        case 4: chicken_image_path = "Chicken_Young.png";
+                        break;
+        
+                        case 5: chicken_image_path = "Chicken_Adult.png";
+                        break;
+                    }
+
+
+
+
+                    res.render("Startseite", {image: chicken_image_path});
+                    
                 }         
             //Wenn user nicht in Datenbank vorhanden -> Fehlermeldung
             if(row.length == 0){
