@@ -189,23 +189,16 @@ body {
   }
   
   .arrow{
-    position: absolute;
-    top:18%;
-    left:465;
-    transform: translateX(-50%);
     color: black;
   }
   
   .arrow::before{
     content:"\1F817";
-    font-size:50px;
+    font-size: 40px;
   }
   
   #spinner{
     position: absolute;
-    top:60%;
-    left:465px;
-    transform:translate(-50%,-50%);
     z-index:10;
     background-color: #e2e2e2;
     text-transform: uppercase;
@@ -220,4 +213,24 @@ body {
     cursor: pointer;
     outline:none;
     letter-spacing: 1px;
+  }
+
+  .spinnerContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 560px;
+    width: 600px;
+    
+    border: 2px solid black;
+  }
+
+  .spinnerWithButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+    width: 500px;
+    padding-bottom: 20px;
   }
