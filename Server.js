@@ -115,7 +115,7 @@ app.post("/inputs",function(req,res)  {
 
     console.log(param_minutes);
 
-/*  Wenn Minutenfeld freigelassen wird, wird Minuten auf 0 gesetzt
+    //Wenn Minutenfeld freigelassen wird, wird Minuten auf 0 gesetzt
     if(param_minutes === "") {
         param_minutes = "0";
     }
@@ -123,7 +123,7 @@ app.post("/inputs",function(req,res)  {
     if(param_seconds === ""){
         param_seconds = "1";
     }
-*/
+
     //Hier wird der input string für die Zeitangabe in eine Nummer konvertiert
     //Wenn es ein Buchstabe oder leerer string ist, wird es zu NaN
     //Beispiel: "10" -> 10
@@ -131,12 +131,7 @@ app.post("/inputs",function(req,res)  {
     //Beispiel: "" -> NaN
     let check_Minute = Number(param_minutes);
     let check_Second = Number(param_seconds);
-    
-    //Debugging
-    console.log(check_Minute);
-    console.log(check_Second);
-    console.log(typeof(check_Minute));
-    console.log(typeof(check_Second));
+
 
     //Es wird gecheckt, ob die Nummer ein int ist und das result in der Konsole ausgegeben
     console.log(Number.isInteger(check_Minute));
@@ -147,23 +142,17 @@ app.post("/inputs",function(req,res)  {
     //Es werden alle Fälle abgefragt, die falschlaufen können. Wenn einer falsch ist, kommt Fehlermeldung
     //Minuten dürfen nicht unter 0 sein, Sekunden dürfen nicht kleiner 1 sein, Minuten und Sekunden dürfen als Typ nicht NaN haben
     //Sekunden dürfen nicht größer als 59 sein, wegen Timer-Funktion; zuletzt dürfen Minuten und Sekunden keine Kommazahlen sein
-    if(check_Minute < 0 || check_Second <= 0 || isNaN(check_Minute) || isNaN(check_Second) || check_Second >= 60 || Number.isInteger(check_Minute)!= true || Number.isInteger(check_Second)!=true){
-        
-        console.log(typeof(param_minutes) + " " + typeof(param_seconds));
+    if(check_Minute < 0 || check_Second < 0 ||  check_Second >= 60 || Number.isInteger(check_Minute)!= true || Number.isInteger(check_Second)!=true){
         
         //Pop-Up welches den user daran erinnert, was nicht eingegeben werden darf
         alert("Bitte geben Sie eine ganze und positive Zahl für Minuten und Sekunden an." + " Sekunden dürfen nicht 59 nicht überschreiten");
-        
         //Eingabeseite wird neu geladen
         res.redirect("/t1_p1_setTaskAndTimer.html");
     }
-
     //Wenn alles richtig eingegeben wurde
     else{
-
     //Datenbankeintrag der benötigten Zeit anlegen
     let param_time = "Minuten: " + param_minutes + " ; Sekunden: " + param_seconds;
-    
 //Wenn fehlende Eingaben vorhanden sind, wird Zeit automatisch eingegeben   
 
 //Eintrag wird in Liste der vorherigen Aufgaben eingetragen

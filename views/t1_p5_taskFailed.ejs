@@ -1,25 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="t1_p5_taskFailed.css" type="text/css" rel="stylesheet">
+    <link href="css/t1_p4_taskDone.css" type="text/css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body style="display: flex; flex-direction: row;">
+<body>
     <img src = "<%=image%>" width = "50%" height="50%">
-    <container style="display: flex; flex-direction: row; justify-content: center; padding-top: 100px; border: 4px solid black;
-    background-color: beige;"
-    >
-        <textAfterTask style="display: flex; flex-direction: column; justify-content: space-evenly; height: 500px; width: 500px;
-        font-size: 48px; align-items: center; text-align: center;"
-        >
+    <container>
+        <textAfterTask>
             <Text>Du hättest in der Zeit deine Aufgabe schaffen können.
                 Hat sich das Prokrastinieren gut angefühlt?</Text>
             <form action="/set-your-task", method="get"> 
-                <button type="submit" style="width: 200px; height: 75px; background-color: beige;">
-                    Versuchs nochmal
+                <button type="submit">
+                    Versuch es nochmal
                 </button>
             </form>
         <textAfterTask/>

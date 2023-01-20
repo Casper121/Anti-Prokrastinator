@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <link href="t1_p1_setTaskAndTimer.css" type="text/css" rel="stylesheet">
+        <link href="css/t1_p1_setTaskAndTimer.css" type="text/css" rel="stylesheet">
     </head>
     <body>
         <div class="icon-bar">
@@ -12,23 +12,12 @@
             Gib deine Aufgabe und das dazugehörige Zeitlimit an:
         </h2>
         
-        <container style="display: flex; flex-direction: row; justify-content: space-evenly;">
+        <container>
 
-            <form action="/inputs" method="POST" style="
-                width: 900px;
-                height: 400px;
-                display: flexbox;
-                background-color:beige;
-                margin-top: 50px;
-                font-size: 30px;
-                padding-top: 100px;
-                border: 3px solid black;
-                font-size: 48px;"
-                >
-                    Aufgabe: <input type = "text" name = "task"> <br>
-                    Minutes: <input type ="text" name = "minutes"> <br>
-                    Seconds: <input type ="text" name = "seconds"> <br>
-    
+            <form action="/inputs" method="POST">
+                Aufgabe: <input type = "text" name = "task"> <br>
+                Minutes: <input type ="text" name = "minutes"> <br>
+                Seconds: <input type ="text" name = "seconds"> <br>
                 <button type="submit" style="width: 150px; height: 50px;">Absenden</button>
             </form>
         </container>
