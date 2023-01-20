@@ -1,0 +1,31 @@
+body{
+    display: flex; 
+    flex-direction: row;
+}
+
+container{
+    display: flex; 
+    flex-direction: row; 
+    justify-content: center; 
+    padding-top: 100px; 
+    border: 4px solid black;
+    background-color: beige;
+}
+
+textAfterTask{
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-evenly; 
+    height: 500px; 
+    width: 500px;
+    font-size: 48px; 
+    align-items: center; 
+    text-align: center;
+}
+
+button{
+    width: 200px; 
+    height: 75px; 
+    background-color: beige;
+}
+

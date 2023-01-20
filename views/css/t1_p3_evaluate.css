@@ -1,0 +1,34 @@
+body{
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding-top: 100px;
+}
+
+container{
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-evenly; 
+    height: 500px;
+    width: 700px; 
+    background-color: beige; 
+    border: 3px solid black;
+}
+
+button{
+    width: 400px; 
+    height: 50px; 
+    font-size: 32px;
+}
+
+
+h1 {
+    text-align: center;
+    font-size: 48px;
+      
+}
+
+form{
+    text-align: center;
+    font-size: 1.875em;
+}
